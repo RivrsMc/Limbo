@@ -627,6 +627,14 @@ public class Player extends LivingEntity implements CommandSender, InventoryHold
         }
     }
 
+    public void sendPacket(PacketOut packet) {
+        try {
+            clientConnection.sendPacket(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public EntityEquipment getEquipment() {
         return playerInventory;
     }
