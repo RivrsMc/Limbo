@@ -59,15 +59,10 @@ public class Console implements CommandSender {
     protected final static String ERROR_RED = "\u001B[31;1m";
     protected final static String RESET_COLOR = "\u001B[0m";
 
-    private final Terminal terminal;
     private final LineReader tabReader;
     private final ConsoleReader reader;
 
     private final InputStream in;
-    @SuppressWarnings("unused")
-    private final PrintStream out;
-    @SuppressWarnings("unused")
-    private final PrintStream err;
     protected final PrintStream logs;
 
     public Console(InputStream in, PrintStream out, PrintStream err) throws IOException {
@@ -89,7 +84,6 @@ public class Console implements CommandSender {
                 //DO NOTHING
             }
         }) : out, this.logs));
-        this.out = System.out;
 
         System.setErr(new ConsoleErrorStream(this, err == null ? new PrintStream(new OutputStream() {
             @Override
@@ -97,13 +91,12 @@ public class Console implements CommandSender {
                 //DO NOTHING
             }
         }) : err, this.logs));
-        this.err = System.err;
 
         reader = new ConsoleReader(in, out);
         reader.setExpandEvents(false);
         reader.setHandleUserInterrupt(false);
 
-        terminal = TerminalBuilder.builder().streams(in, out).system(true).jansi(true).build();
+        Terminal terminal = TerminalBuilder.builder().streams(in, out).system(true).jansi(true).build();
         tabReader = LineReaderBuilder.builder().terminal(terminal).completer(new Completer() {
             @Override
             public void complete(LineReader reader, ParsedLine line, List<Candidate> candidates) {

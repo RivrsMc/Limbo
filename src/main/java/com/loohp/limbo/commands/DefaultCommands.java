@@ -19,17 +19,17 @@
 
 package com.loohp.limbo.commands;
 
-import com.loohp.limbo.Console;
-import com.loohp.limbo.Limbo;
-import com.loohp.limbo.player.Player;
-import com.loohp.limbo.utils.GameMode;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.ChatColor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.loohp.limbo.Limbo;
+import com.loohp.limbo.player.Player;
+import com.loohp.limbo.utils.GameMode;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.api.ChatColor;
 
 public class DefaultCommands implements CommandExecutor, TabCompletor {
 	
@@ -140,31 +140,6 @@ public class DefaultCommands implements CommandExecutor, TabCompletor {
 			return;
 		}
 		
-		if (args[0].equalsIgnoreCase("say")) {
-			if (sender.hasPermission("limboserver.say")) {
-				if (sender instanceof Console) {
-					if (args.length > 1) {
-						String message = "[Server] " + String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-						Limbo.getInstance().getConsole().sendMessage(message);
-						for (Player each : Limbo.getInstance().getPlayers()) {
-							each.sendMessage(message);
-						}
-					}
-				} else {
-					if (args.length > 1) {
-						String message = "[" + sender.getName() + "] " + String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-						Limbo.getInstance().getConsole().sendMessage(message);
-						for (Player each : Limbo.getInstance().getPlayers()) {
-							each.sendMessage(message);
-						}
-					}
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-
 		if (args[0].equalsIgnoreCase("whitelist")) {
 			if (sender.hasPermission("limboserver.whitelist")) {
 				if (args.length != 2) {
@@ -196,9 +171,6 @@ public class DefaultCommands implements CommandExecutor, TabCompletor {
 			if (sender.hasPermission("limboserver.stop")) {
 				tab.add("stop");
 			}
-			if (sender.hasPermission("limboserver.say")) {
-				tab.add("say");
-			}
 			if (sender.hasPermission("limboserver.gamemode")) {
 				tab.add("gamemode");
 			}
@@ -217,11 +189,6 @@ public class DefaultCommands implements CommandExecutor, TabCompletor {
 			if (sender.hasPermission("limboserver.stop")) {
 				if ("stop".startsWith(args[0].toLowerCase())) {
 					tab.add("stop");
-				}
-			}
-			if (sender.hasPermission("limboserver.say")) {
-				if ("say".startsWith(args[0].toLowerCase())) {
-					tab.add("say");
 				}
 			}
 			if (sender.hasPermission("limboserver.gamemode")) {
