@@ -19,10 +19,16 @@
 
 package com.loohp.limbo.inventory;
 
-import com.loohp.limbo.location.Location;
 import net.kyori.adventure.text.Component;
 
 public class CustomInventory extends AbstractInventory implements TitledInventory {
+
+    private Component title;
+
+    private CustomInventory(Component title, int size, InventoryHolder inventoryHolder) {
+        super(size, inventoryHolder, InventoryType.CHEST, null, null);
+        this.title = title;
+    }
 
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
@@ -31,13 +37,6 @@ public class CustomInventory extends AbstractInventory implements TitledInventor
             throw new IllegalArgumentException("size must be a multiple of 9 and within 9 - 54");
         }
         return new CustomInventory(title, size, inventoryHolder);
-    }
-
-    private Component title;
-
-    private CustomInventory(Component title, int size, InventoryHolder inventoryHolder) {
-        super(size, inventoryHolder, InventoryType.CHEST, null, null);
-        this.title = title;
     }
 
     @Override

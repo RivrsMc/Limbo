@@ -19,12 +19,6 @@
 
 package com.loohp.limbo.utils;
 
-import com.loohp.limbo.Limbo;
-import net.kyori.adventure.key.Key;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -33,6 +27,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import com.loohp.limbo.Limbo;
+
+import net.kyori.adventure.key.Key;
 
 public class ForwardingUtils {
 
@@ -119,28 +121,23 @@ public class ForwardingUtils {
             this.skinResponse = skinResponse;
         }
 
-        public int getVersion()
-        {
+        public int getVersion() {
             return version;
         }
 
-        public String getIpAddress()
-        {
+        public String getIpAddress() {
             return ipAddress;
         }
 
-        public UUID getUuid()
-        {
+        public UUID getUuid() {
             return uuid;
         }
 
-        public String getUsername()
-        {
+        public String getUsername() {
             return username;
         }
 
-        public MojangAPIUtils.SkinResponse getSkinResponse()
-        {
+        public MojangAPIUtils.SkinResponse getSkinResponse() {
             return skinResponse;
         }
     }

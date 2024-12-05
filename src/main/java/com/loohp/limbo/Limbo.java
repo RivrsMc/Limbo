@@ -72,47 +72,28 @@ import net.querz.nbt.tag.CompoundTag;
 public final class Limbo {
 
     public static final String LIMBO_BRAND = "Rivrs-Lobby";
-
-    private static Limbo instance;
     public static boolean noGui = false;
-
-    public static void main(String args[]) throws IOException, ParseException, NumberFormatException, ClassNotFoundException, InterruptedException {
-        noGui = true;
-        new Limbo();
-    }
-
-    public static Limbo getInstance() {
-        return instance;
-    }
-
-    //===========================
-
+    private static Limbo instance;
     public final String SERVER_IMPLEMENTATION_VERSION = "1.21.3";
     public final int SERVER_IMPLEMENTATION_PROTOCOL = 768;
+
+    //===========================
     public final String LIMBO_IMPLEMENTATION_VERSION;
-
-    private final AtomicBoolean isRunning;
-
-    private final ServerConnection server;
-    private final Console console;
-
-    private final List<World> worlds = new CopyOnWriteArrayList<>();
+    public final AtomicInteger entityIdCount = new AtomicInteger();
     final Map<String, Player> playersByName = new ConcurrentHashMap<>();
     final Map<UUID, Player> playersByUUID = new ConcurrentHashMap<>();
+    private final AtomicBoolean isRunning;
+    private final ServerConnection server;
+    private final Console console;
+    private final List<World> worlds = new CopyOnWriteArrayList<>();
     private final Map<Key, KeyedBossBar> bossBars = new ConcurrentHashMap<>();
-
     private final ServerProperties properties;
-
     private final PluginManager pluginManager;
     private final EventsManager eventsManager;
     private final PermissionsManager permissionManager;
     private final File pluginFolder;
-
     private final Tick tick;
     private final LimboScheduler scheduler;
-
-    public final AtomicInteger entityIdCount = new AtomicInteger();
-
     @SuppressWarnings("deprecation")
     private final Unsafe unsafe;
 
@@ -204,6 +185,15 @@ public final class Limbo {
         }));
 
         console.run();
+    }
+
+    public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ClassNotFoundException, InterruptedException {
+        noGui = true;
+        new Limbo();
+    }
+
+    public static Limbo getInstance() {
+        return instance;
     }
 
     @Deprecated
@@ -386,10 +376,10 @@ public final class Limbo {
 
     public String buildLegacyPingResponse(String version, Component motd, int maxPlayers, int playersOnline) {
         String begin = "�1";
-        return String.join("\00", begin, "127", version, String.join("", Arrays.asList(motd).stream().map(each -> LegacyComponentSerializer.legacySection().serialize(each)).collect(Collectors.toList())), String.valueOf(playersOnline), String.valueOf(maxPlayers));
+        return String.join("\00", begin, "127", version, String.join("", Collections.singletonList(motd).stream().map(each -> LegacyComponentSerializer.legacySection().serialize(each)).collect(Collectors.toList())), String.valueOf(playersOnline), String.valueOf(maxPlayers));
     }
 
-    protected void terminate() {
+    private void terminate() {
         isRunning.set(false);
         console.sendMessage("Stopping Server...");
 

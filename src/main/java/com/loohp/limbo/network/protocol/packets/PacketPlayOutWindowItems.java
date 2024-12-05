@@ -19,14 +19,14 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.inventory.ItemStack;
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import com.loohp.limbo.inventory.ItemStack;
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
 
 public class PacketPlayOutWindowItems extends PacketOut {
 

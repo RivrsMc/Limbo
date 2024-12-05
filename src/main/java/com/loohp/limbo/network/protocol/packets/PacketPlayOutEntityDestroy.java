@@ -19,37 +19,37 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketPlayOutEntityDestroy extends PacketOut {
-	
-	private final int[] entityIds;
-	
-	public PacketPlayOutEntityDestroy(int... entityIds) {
-		this.entityIds = entityIds;
-	}
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
 
-	public int[] getEntityIds() {
-		return entityIds;
-	}
-	
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeVarInt(output, entityIds.length);
-		for (int entityId : entityIds) {
-			DataTypeIO.writeVarInt(output, entityId);
-		}
-		
-		return buffer.toByteArray();
-	}
+public class PacketPlayOutEntityDestroy extends PacketOut {
+
+    private final int[] entityIds;
+
+    public PacketPlayOutEntityDestroy(int... entityIds) {
+        this.entityIds = entityIds;
+    }
+
+    public int[] getEntityIds() {
+        return entityIds;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeVarInt(output, entityIds.length);
+        for (int entityId : entityIds) {
+            DataTypeIO.writeVarInt(output, entityId);
+        }
+
+        return buffer.toByteArray();
+    }
 
 }

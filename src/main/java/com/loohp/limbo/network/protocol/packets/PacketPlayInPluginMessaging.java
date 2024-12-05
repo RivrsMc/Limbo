@@ -19,35 +19,35 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInPluginMessaging extends PacketIn {
 
-	private final String channel;
-	private final byte[] data;
+    private final String channel;
+    private final byte[] data;
 
-	public PacketPlayInPluginMessaging(String channel, byte[] data) {
-		this.channel = channel;
-		this.data = data;
-	}
-	
-	public PacketPlayInPluginMessaging(DataInputStream in, int packetLength, int packetId) throws IOException {
-		this.channel = DataTypeIO.readString(in, StandardCharsets.UTF_8);
-		int dataLength = packetLength - DataTypeIO.getVarIntLength(packetId) - DataTypeIO.getStringLength(channel, StandardCharsets.UTF_8);
-		this.data = new byte[dataLength];
-		in.readFully(this.data);
-	}
+    public PacketPlayInPluginMessaging(String channel, byte[] data) {
+        this.channel = channel;
+        this.data = data;
+    }
 
-	public String getChannel() {
-		return channel;
-	}
+    public PacketPlayInPluginMessaging(DataInputStream in, int packetLength, int packetId) throws IOException {
+        this.channel = DataTypeIO.readString(in, StandardCharsets.UTF_8);
+        int dataLength = packetLength - DataTypeIO.getVarIntLength(packetId) - DataTypeIO.getStringLength(channel, StandardCharsets.UTF_8);
+        this.data = new byte[dataLength];
+        in.readFully(this.data);
+    }
 
-	public byte[] getData() {
-		return data;
-	}
+    public String getChannel() {
+        return channel;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
 
 }

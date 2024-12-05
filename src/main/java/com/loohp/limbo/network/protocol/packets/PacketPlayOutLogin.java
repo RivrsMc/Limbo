@@ -19,165 +19,166 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.registry.RegistryCustom;
-import com.loohp.limbo.utils.DataTypeIO;
-import com.loohp.limbo.utils.GameMode;
-import com.loohp.limbo.world.Environment;
-import com.loohp.limbo.world.World;
-import net.kyori.adventure.key.Key;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.registry.RegistryCustom;
+import com.loohp.limbo.utils.DataTypeIO;
+import com.loohp.limbo.utils.GameMode;
+import com.loohp.limbo.world.Environment;
+import com.loohp.limbo.world.World;
+
+import net.kyori.adventure.key.Key;
+
 public class PacketPlayOutLogin extends PacketOut {
-	
-	private final int entityId;
-	private final boolean isHardcore;
-	private final List<World> worlds;
-	private final int maxPlayers;
-	private final int viewDistance;
-	private final int simulationDistance;
-	private final boolean reducedDebugInfo;
-	private final boolean enableRespawnScreen;
-	private final boolean doLimitedCrafting;
-	private final Environment dimension;
-	private final World world;
-	private final long hashedSeed;
-	private final GameMode gamemode;
-	private final boolean isDebug;
-	private final boolean isFlat;
-	private final int portalCooldown;
-	private final int seaLevel;
-	private final boolean enforcesSecureChat;
 
-	public PacketPlayOutLogin(int entityId, boolean isHardcore, List<World> worlds, int maxPlayers, int viewDistance, int simulationDistance, boolean reducedDebugInfo, boolean enableRespawnScreen, boolean doLimitedCrafting, Environment dimension, World world, long hashedSeed, GameMode gamemode, boolean isDebug, boolean isFlat, int portalCooldown, int seaLevel, boolean enforcesSecureChat) {
-		this.entityId = entityId;
-		this.isHardcore = isHardcore;
-		this.worlds = worlds;
-		this.maxPlayers = maxPlayers;
-		this.viewDistance = viewDistance;
-		this.simulationDistance = simulationDistance;
-		this.reducedDebugInfo = reducedDebugInfo;
-		this.enableRespawnScreen = enableRespawnScreen;
-		this.doLimitedCrafting = doLimitedCrafting;
-		this.dimension = dimension;
-		this.world = world;
-		this.hashedSeed = hashedSeed;
-		this.gamemode = gamemode;
-		this.isDebug = isDebug;
-		this.isFlat = isFlat;
-		this.portalCooldown = portalCooldown;
-		this.seaLevel = seaLevel;
-		this.enforcesSecureChat = enforcesSecureChat;
-	}
+    private final int entityId;
+    private final boolean isHardcore;
+    private final List<World> worlds;
+    private final int maxPlayers;
+    private final int viewDistance;
+    private final int simulationDistance;
+    private final boolean reducedDebugInfo;
+    private final boolean enableRespawnScreen;
+    private final boolean doLimitedCrafting;
+    private final Environment dimension;
+    private final World world;
+    private final long hashedSeed;
+    private final GameMode gamemode;
+    private final boolean isDebug;
+    private final boolean isFlat;
+    private final int portalCooldown;
+    private final int seaLevel;
+    private final boolean enforcesSecureChat;
 
-	public int getEntityId() {
-		return entityId;
-	}
+    public PacketPlayOutLogin(int entityId, boolean isHardcore, List<World> worlds, int maxPlayers, int viewDistance, int simulationDistance, boolean reducedDebugInfo, boolean enableRespawnScreen, boolean doLimitedCrafting, Environment dimension, World world, long hashedSeed, GameMode gamemode, boolean isDebug, boolean isFlat, int portalCooldown, int seaLevel, boolean enforcesSecureChat) {
+        this.entityId = entityId;
+        this.isHardcore = isHardcore;
+        this.worlds = worlds;
+        this.maxPlayers = maxPlayers;
+        this.viewDistance = viewDistance;
+        this.simulationDistance = simulationDistance;
+        this.reducedDebugInfo = reducedDebugInfo;
+        this.enableRespawnScreen = enableRespawnScreen;
+        this.doLimitedCrafting = doLimitedCrafting;
+        this.dimension = dimension;
+        this.world = world;
+        this.hashedSeed = hashedSeed;
+        this.gamemode = gamemode;
+        this.isDebug = isDebug;
+        this.isFlat = isFlat;
+        this.portalCooldown = portalCooldown;
+        this.seaLevel = seaLevel;
+        this.enforcesSecureChat = enforcesSecureChat;
+    }
 
-	public boolean isHardcore() {
-		return isHardcore;
-	}
+    public int getEntityId() {
+        return entityId;
+    }
 
-	public List<World> getWorlds() {
-		return worlds;
-	}
+    public boolean isHardcore() {
+        return isHardcore;
+    }
 
-	public int getMaxPlayers() {
-		return maxPlayers;
-	}
+    public List<World> getWorlds() {
+        return worlds;
+    }
 
-	public int getViewDistance() {
-		return viewDistance;
-	}
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
 
-	public int getSimulationDistance() {
-		return simulationDistance;
-	}
+    public int getViewDistance() {
+        return viewDistance;
+    }
 
-	public boolean isReducedDebugInfo() {
-		return reducedDebugInfo;
-	}
+    public int getSimulationDistance() {
+        return simulationDistance;
+    }
 
-	public boolean isEnableRespawnScreen() {
-		return enableRespawnScreen;
-	}
+    public boolean isReducedDebugInfo() {
+        return reducedDebugInfo;
+    }
 
-	public boolean isDoLimitedCrafting() {
-		return doLimitedCrafting;
-	}
+    public boolean isEnableRespawnScreen() {
+        return enableRespawnScreen;
+    }
 
-	public Environment getDimension() {
-		return dimension;
-	}
+    public boolean isDoLimitedCrafting() {
+        return doLimitedCrafting;
+    }
 
-	public World getWorld() {
-		return world;
-	}
+    public Environment getDimension() {
+        return dimension;
+    }
 
-	public long getHashedSeed() {
-		return hashedSeed;
-	}
+    public World getWorld() {
+        return world;
+    }
 
-	public GameMode getGamemode() {
-		return gamemode;
-	}
+    public long getHashedSeed() {
+        return hashedSeed;
+    }
 
-	public boolean isDebug() {
-		return isDebug;
-	}
+    public GameMode getGamemode() {
+        return gamemode;
+    }
 
-	public boolean isFlat() {
-		return isFlat;
-	}
+    public boolean isDebug() {
+        return isDebug;
+    }
 
-	public int getPortalCooldown() {
-		return portalCooldown;
-	}
+    public boolean isFlat() {
+        return isFlat;
+    }
 
-	public int getSeaLevel() {
-		return seaLevel;
-	}
+    public int getPortalCooldown() {
+        return portalCooldown;
+    }
 
-	public boolean isEnforcesSecureChat() {
-		return enforcesSecureChat;
-	}
+    public int getSeaLevel() {
+        return seaLevel;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		output.writeInt(entityId);
-		output.writeBoolean(isHardcore);
-		DataTypeIO.writeVarInt(output, worlds.size());
-		for (World world : worlds) {
-			DataTypeIO.writeString(output, Key.key(world.getName()).toString(), StandardCharsets.UTF_8);
-		}
-		DataTypeIO.writeVarInt(output, maxPlayers);
-		DataTypeIO.writeVarInt(output, viewDistance);
-		DataTypeIO.writeVarInt(output, simulationDistance);
-		output.writeBoolean(reducedDebugInfo);
-		output.writeBoolean(enableRespawnScreen);
-		output.writeBoolean(doLimitedCrafting);
-		DataTypeIO.writeVarInt(output, RegistryCustom.DIMENSION_TYPE.indexOf(world.getEnvironment().getKey()));
-		DataTypeIO.writeString(output, Key.key(world.getName()).toString(), StandardCharsets.UTF_8);
-		output.writeLong(hashedSeed);
+    public boolean isEnforcesSecureChat() {
+        return enforcesSecureChat;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        output.writeInt(entityId);
+        output.writeBoolean(isHardcore);
+        DataTypeIO.writeVarInt(output, worlds.size());
+        for (World world : worlds) {
+            DataTypeIO.writeString(output, Key.key(world.getName()).toString(), StandardCharsets.UTF_8);
+        }
+        DataTypeIO.writeVarInt(output, maxPlayers);
+        DataTypeIO.writeVarInt(output, viewDistance);
+        DataTypeIO.writeVarInt(output, simulationDistance);
+        output.writeBoolean(reducedDebugInfo);
+        output.writeBoolean(enableRespawnScreen);
+        output.writeBoolean(doLimitedCrafting);
+        DataTypeIO.writeVarInt(output, RegistryCustom.DIMENSION_TYPE.indexOf(world.getEnvironment().getKey()));
+        DataTypeIO.writeString(output, Key.key(world.getName()).toString(), StandardCharsets.UTF_8);
+        output.writeLong(hashedSeed);
         output.writeByte((byte) gamemode.getId());
-		output.writeByte(-1);
-		output.writeBoolean(isDebug);
-		output.writeBoolean(isFlat);
-		output.writeBoolean(false);
-		DataTypeIO.writeVarInt(output, portalCooldown);
-		DataTypeIO.writeVarInt(output, seaLevel);
-		output.writeBoolean(enforcesSecureChat);
+        output.writeByte(-1);
+        output.writeBoolean(isDebug);
+        output.writeBoolean(isFlat);
+        output.writeBoolean(false);
+        DataTypeIO.writeVarInt(output, portalCooldown);
+        DataTypeIO.writeVarInt(output, seaLevel);
+        output.writeBoolean(enforcesSecureChat);
 
-		return buffer.toByteArray();
-	}
+        return buffer.toByteArray();
+    }
 
 }

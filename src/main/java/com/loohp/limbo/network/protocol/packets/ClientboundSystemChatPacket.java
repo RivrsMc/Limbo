@@ -19,42 +19,43 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.text.Component;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
+import net.kyori.adventure.text.Component;
+
 public class ClientboundSystemChatPacket extends PacketOut {
 
-	private final Component message;
-	private final boolean overlay;
+    private final Component message;
+    private final boolean overlay;
 
-	public ClientboundSystemChatPacket(Component message, boolean overlay) {
-		this.message = message;
-		this.overlay = overlay;
-	}
+    public ClientboundSystemChatPacket(Component message, boolean overlay) {
+        this.message = message;
+        this.overlay = overlay;
+    }
 
-	public Component getMessage() {
-		return message;
-	}
+    public Component getMessage() {
+        return message;
+    }
 
-	public boolean isOverlay() {
-		return overlay;
-	}
+    public boolean isOverlay() {
+        return overlay;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeComponent(output, message);
-		output.writeBoolean(overlay);
-		
-		return buffer.toByteArray();
-	}
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeComponent(output, message);
+        output.writeBoolean(overlay);
+
+        return buffer.toByteArray();
+    }
 
 }

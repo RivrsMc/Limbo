@@ -19,14 +19,14 @@
 
 package com.loohp.limbo.events.player;
 
-import com.loohp.limbo.player.Player;
-
 import java.util.Arrays;
+
+import com.loohp.limbo.player.Player;
 
 public class PluginMessageEvent extends PlayerEvent {
 
-    private String channel;
-    private byte[] data;
+    private final String channel;
+    private final byte[] data;
 
     public PluginMessageEvent(Player player, String channel, byte[] data) {
         super(player);

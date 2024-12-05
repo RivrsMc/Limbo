@@ -32,204 +32,203 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 
 public class DefaultCommands implements CommandExecutor, TabCompletor {
-	
-	@Override
-	public void execute(CommandSender sender, String[] args) {
-		if (args.length == 0) {
-			return;
-		}
 
-		if (args[0].equalsIgnoreCase("version")) {
-			if (sender.hasPermission("limboserver.version")) {
-				sender.sendMessage(ChatColor.GRAY + "This server is running Limbo version " + Limbo.getInstance().LIMBO_IMPLEMENTATION_VERSION + " (MC: " + Limbo.getInstance().SERVER_IMPLEMENTATION_VERSION + ")");
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length == 0) {
+            return;
+        }
 
-		if (args[0].equalsIgnoreCase("spawn")) {
-			if (sender.hasPermission("limboserver.spawn")) {
-				if (args.length == 1 && sender instanceof Player) {
-					Player player = (Player) sender;
-					player.teleport(Limbo.getInstance().getServerProperties().getWorldSpawn());
-					player.sendMessage(ChatColor.GOLD + "Teleporting you to spawn!");
-				} else if (args.length == 2) {
-					Player player = Limbo.getInstance().getPlayer(args[1]);
-					if (player != null) {
-						player.teleport(Limbo.getInstance().getServerProperties().getWorldSpawn());
-						sender.sendMessage(ChatColor.GOLD + "Teleporting " + player.getName() + " to spawn!");
-					} else {
-						sender.sendMessage(ChatColor.RED + "Player not found!");
-					}
-				} else {
-					sender.sendMessage(ChatColor.RED + "Invalid command usage!");
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-		
-		if (args[0].equalsIgnoreCase("stop")) {
-			if (sender.hasPermission("limboserver.stop")) {
-				Limbo.getInstance().stopServer();
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-		
-		if (args[0].equalsIgnoreCase("kick")) {
-			if (sender.hasPermission("limboserver.kick")) {
-				Component reason = Component.translatable("multiplayer.disconnect.kicked");
-				boolean customReason = false;
-				if (args.length > 1) {
-					Player player = Limbo.getInstance().getPlayer(args[1]);
-					if (player != null) {
-						String reasonRaw = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
-						if (reasonRaw.trim().length() > 0) {
-							reason = LegacyComponentSerializer.legacySection().deserialize(reasonRaw);
-							customReason = true;
-						}
-						player.disconnect(reason);
-						if (customReason) {
-							sender.sendMessage(ChatColor.RED + "Kicked the player " + player.getName() + " for the reason: " + LegacyComponentSerializer.legacySection().serialize(reason));
-						} else {
-							sender.sendMessage(ChatColor.RED + "Kicked the player " + player.getName());
-						}
-					} else {
-						sender.sendMessage(ChatColor.RED + "Player is not online!");
-					}
-				} else {
-					sender.sendMessage(ChatColor.RED + "You have to specifiy a player!");
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-		
-		if (args[0].equalsIgnoreCase("gamemode")) {
-			if (sender.hasPermission("limboserver.gamemode")) {
-				if (args.length > 1) {
-					Player player = args.length > 2 ? Limbo.getInstance().getPlayer(args[2]) : (sender instanceof Player ? (Player) sender : null);
-					if (!(sender instanceof Player)) {
-						sender.sendMessage(ChatColor.RED + "You have to specifiy a player!");
-					} else if (player != null) {
-						try {
-							player.setGamemode(GameMode.fromId(Integer.parseInt(args[1])));
-						} catch (Exception e) {
-							try {
-								player.setGamemode(GameMode.fromName(args[1]));
-							} catch (Exception e1) {
-								sender.sendMessage(ChatColor.RED + "Invalid usage!");
-								return;
-							}
-						}
-						sender.sendMessage(ChatColor.GOLD + "Updated gamemode to " + player.getGamemode().getName());
-					} else {
-						sender.sendMessage(ChatColor.RED + "Player is not online!");
-					}
-				} else {
-					sender.sendMessage(ChatColor.RED + "Invalid usage!");
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-		
-		if (args[0].equalsIgnoreCase("whitelist")) {
-			if (sender.hasPermission("limboserver.whitelist")) {
-				if (args.length != 2) {
-					sender.sendMessage(ChatColor.RED + "Invalid usage!");
-				} else if (!args[1].equalsIgnoreCase("reload")) {
-					sender.sendMessage(ChatColor.RED + "Invalid usage!");
-				} else {
-					Limbo.getInstance().getServerProperties().reloadWhitelist();
-					sender.sendMessage("Whitelist has been reloaded");
-				}
-			} else {
-				sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
-			}
-			return;
-		}
-	}
-	
-	@Override
-	public List<String> tabComplete(CommandSender sender, String[] args) {
-		List<String> tab = new ArrayList<>();
-		switch (args.length) {
-		case 0:
-			if (sender.hasPermission("limboserver.spawn")) {
-				tab.add("spawn");
-			}
-			if (sender.hasPermission("limboserver.kick")) {
-				tab.add("kick");
-			}
-			if (sender.hasPermission("limboserver.stop")) {
-				tab.add("stop");
-			}
-			if (sender.hasPermission("limboserver.gamemode")) {
-				tab.add("gamemode");
-			}
-			break;
-		case 1:
-			if (sender.hasPermission("limboserver.spawn")) {
-				if ("spawn".startsWith(args[0].toLowerCase())) {
-					tab.add("spawn");
-				}
-			}
-			if (sender.hasPermission("limboserver.kick")) {
-				if ("kick".startsWith(args[0].toLowerCase())) {
-					tab.add("kick");
-				}
-			}
-			if (sender.hasPermission("limboserver.stop")) {
-				if ("stop".startsWith(args[0].toLowerCase())) {
-					tab.add("stop");
-				}
-			}
-			if (sender.hasPermission("limboserver.gamemode")) {
-				if ("gamemode".startsWith(args[0].toLowerCase())) {
-					tab.add("gamemode");
-				}
-			}
-			break;
-		case 2:
-			if (sender.hasPermission("limboserver.kick")) {
-				if (args[0].equalsIgnoreCase("kick")) {
-					for (Player player : Limbo.getInstance().getPlayers()) {
-						if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
-							tab.add(player.getName());
-						}
-					}
-				}
-			}
-			if (sender.hasPermission("limboserver.gamemode")) {
-				if (args[0].equalsIgnoreCase("gamemode")) {
-					for (GameMode mode : GameMode.values()) {
-						if (mode.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
-							tab.add(mode.getName());
-						}
-					}
-				}
-			}
-			break;
-		case 3:
-			if (sender.hasPermission("limboserver.gamemode")) {
-				if (args[0].equalsIgnoreCase("gamemode")) {
-					for (Player player : Limbo.getInstance().getPlayers()) {
-						if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
-							tab.add(player.getName());
-						}
-					}
-				}
-			}
-			break;
-		}
-		return tab;
-	}
+        if (args[0].equalsIgnoreCase("version")) {
+            if (sender.hasPermission("limboserver.version")) {
+                sender.sendMessage(ChatColor.GRAY + "This server is running Limbo version " + Limbo.getInstance().LIMBO_IMPLEMENTATION_VERSION + " (MC: " + Limbo.getInstance().SERVER_IMPLEMENTATION_VERSION + ")");
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("spawn")) {
+            if (sender.hasPermission("limboserver.spawn")) {
+                if (args.length == 1 && sender instanceof Player) {
+                    Player player = (Player) sender;
+                    player.teleport(Limbo.getInstance().getServerProperties().getWorldSpawn());
+                    player.sendMessage(ChatColor.GOLD + "Teleporting you to spawn!");
+                } else if (args.length == 2) {
+                    Player player = Limbo.getInstance().getPlayer(args[1]);
+                    if (player != null) {
+                        player.teleport(Limbo.getInstance().getServerProperties().getWorldSpawn());
+                        sender.sendMessage(ChatColor.GOLD + "Teleporting " + player.getName() + " to spawn!");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Player not found!");
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Invalid command usage!");
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("stop")) {
+            if (sender.hasPermission("limboserver.stop")) {
+                Limbo.getInstance().stopServer();
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("kick")) {
+            if (sender.hasPermission("limboserver.kick")) {
+                Component reason = Component.translatable("multiplayer.disconnect.kicked");
+                boolean customReason = false;
+                if (args.length > 1) {
+                    Player player = Limbo.getInstance().getPlayer(args[1]);
+                    if (player != null) {
+                        String reasonRaw = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                        if (reasonRaw.trim().length() > 0) {
+                            reason = LegacyComponentSerializer.legacySection().deserialize(reasonRaw);
+                            customReason = true;
+                        }
+                        player.disconnect(reason);
+                        if (customReason) {
+                            sender.sendMessage(ChatColor.RED + "Kicked the player " + player.getName() + " for the reason: " + LegacyComponentSerializer.legacySection().serialize(reason));
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Kicked the player " + player.getName());
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Player is not online!");
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You have to specifiy a player!");
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("gamemode")) {
+            if (sender.hasPermission("limboserver.gamemode")) {
+                if (args.length > 1) {
+                    Player player = args.length > 2 ? Limbo.getInstance().getPlayer(args[2]) : (sender instanceof Player ? (Player) sender : null);
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage(ChatColor.RED + "You have to specifiy a player!");
+                    } else if (player != null) {
+                        try {
+                            player.setGamemode(GameMode.fromId(Integer.parseInt(args[1])));
+                        } catch (Exception e) {
+                            try {
+                                player.setGamemode(GameMode.fromName(args[1]));
+                            } catch (Exception e1) {
+                                sender.sendMessage(ChatColor.RED + "Invalid usage!");
+                                return;
+                            }
+                        }
+                        sender.sendMessage(ChatColor.GOLD + "Updated gamemode to " + player.getGamemode().getName());
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Player is not online!");
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Invalid usage!");
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("whitelist")) {
+            if (sender.hasPermission("limboserver.whitelist")) {
+                if (args.length != 2) {
+                    sender.sendMessage(ChatColor.RED + "Invalid usage!");
+                } else if (!args[1].equalsIgnoreCase("reload")) {
+                    sender.sendMessage(ChatColor.RED + "Invalid usage!");
+                } else {
+                    Limbo.getInstance().getServerProperties().reloadWhitelist();
+                    sender.sendMessage("Whitelist has been reloaded");
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to use that command!");
+            }
+        }
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String[] args) {
+        List<String> tab = new ArrayList<>();
+        switch (args.length) {
+            case 0:
+                if (sender.hasPermission("limboserver.spawn")) {
+                    tab.add("spawn");
+                }
+                if (sender.hasPermission("limboserver.kick")) {
+                    tab.add("kick");
+                }
+                if (sender.hasPermission("limboserver.stop")) {
+                    tab.add("stop");
+                }
+                if (sender.hasPermission("limboserver.gamemode")) {
+                    tab.add("gamemode");
+                }
+                break;
+            case 1:
+                if (sender.hasPermission("limboserver.spawn")) {
+                    if ("spawn".startsWith(args[0].toLowerCase())) {
+                        tab.add("spawn");
+                    }
+                }
+                if (sender.hasPermission("limboserver.kick")) {
+                    if ("kick".startsWith(args[0].toLowerCase())) {
+                        tab.add("kick");
+                    }
+                }
+                if (sender.hasPermission("limboserver.stop")) {
+                    if ("stop".startsWith(args[0].toLowerCase())) {
+                        tab.add("stop");
+                    }
+                }
+                if (sender.hasPermission("limboserver.gamemode")) {
+                    if ("gamemode".startsWith(args[0].toLowerCase())) {
+                        tab.add("gamemode");
+                    }
+                }
+                break;
+            case 2:
+                if (sender.hasPermission("limboserver.kick")) {
+                    if (args[0].equalsIgnoreCase("kick")) {
+                        for (Player player : Limbo.getInstance().getPlayers()) {
+                            if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                                tab.add(player.getName());
+                            }
+                        }
+                    }
+                }
+                if (sender.hasPermission("limboserver.gamemode")) {
+                    if (args[0].equalsIgnoreCase("gamemode")) {
+                        for (GameMode mode : GameMode.values()) {
+                            if (mode.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                                tab.add(mode.getName());
+                            }
+                        }
+                    }
+                }
+                break;
+            case 3:
+                if (sender.hasPermission("limboserver.gamemode")) {
+                    if (args[0].equalsIgnoreCase("gamemode")) {
+                        for (Player player : Limbo.getInstance().getPlayers()) {
+                            if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
+                                tab.add(player.getName());
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        return tab;
+    }
 
 }

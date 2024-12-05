@@ -19,35 +19,35 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class ClientboundChunkBatchFinishedPacket extends PacketOut {
 
-	private final int batchSize;
+    private final int batchSize;
 
-	public ClientboundChunkBatchFinishedPacket(int batchSize) {
-		this.batchSize = batchSize;
-	}
+    public ClientboundChunkBatchFinishedPacket(int batchSize) {
+        this.batchSize = batchSize;
+    }
 
-	public int getBatchSize() {
-		return batchSize;
-	}
+    public int getBatchSize() {
+        return batchSize;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-		DataTypeIO.writeVarInt(output, batchSize);
-		
-		return buffer.toByteArray();
-	}
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+
+        DataTypeIO.writeVarInt(output, batchSize);
+
+        return buffer.toByteArray();
+    }
 
 }

@@ -19,56 +19,55 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import com.loohp.limbo.location.BlockFace;
 import com.loohp.limbo.utils.DataTypeIO;
 import com.loohp.limbo.world.BlockPosition;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-
 public class PacketPlayInBlockDig extends PacketIn {
 
-	public enum PlayerDigType {
+    private final PlayerDigType action;
+    private final BlockPosition pos;
+    private final BlockFace direction;
+    private final int sequence;
+    public PacketPlayInBlockDig(PlayerDigType action, BlockPosition pos, BlockFace direction, int sequence) {
+        this.action = action;
+        this.pos = pos;
+        this.direction = direction;
+        this.sequence = sequence;
+    }
 
-		START_DESTROY_BLOCK,
-		ABORT_DESTROY_BLOCK,
-		STOP_DESTROY_BLOCK,
-		DROP_ALL_ITEMS,
-		DROP_ITEM,
-		RELEASE_USE_ITEM,
-		SWAP_ITEM_WITH_OFFHAND;
+    public PacketPlayInBlockDig(DataInputStream in) throws IOException {
+        this(PlayerDigType.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readBlockPosition(in), BlockFace.values()[in.readByte()], DataTypeIO.readVarInt(in));
+    }
 
-	}
+    public BlockPosition getPos() {
+        return pos;
+    }
 
-	private final PlayerDigType action;
-	private final BlockPosition pos;
-	private final BlockFace direction;
-	private final int sequence;
+    public BlockFace getDirection() {
+        return direction;
+    }
 
-	public PacketPlayInBlockDig(PlayerDigType action, BlockPosition pos, BlockFace direction, int sequence) {
-		this.action = action;
-		this.pos = pos;
-		this.direction = direction;
-		this.sequence = sequence;
-	}
+    public PlayerDigType getAction() {
+        return action;
+    }
 
-	public PacketPlayInBlockDig(DataInputStream in) throws IOException {
-		this(PlayerDigType.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readBlockPosition(in), BlockFace.values()[in.readByte()], DataTypeIO.readVarInt(in));
-	}
+    public int getSequence() {
+        return sequence;
+    }
 
-	public BlockPosition getPos() {
-		return pos;
-	}
+    public enum PlayerDigType {
 
-	public BlockFace getDirection() {
-		return direction;
-	}
+        START_DESTROY_BLOCK,
+        ABORT_DESTROY_BLOCK,
+        STOP_DESTROY_BLOCK,
+        DROP_ALL_ITEMS,
+        DROP_ITEM,
+        RELEASE_USE_ITEM,
+        SWAP_ITEM_WITH_OFFHAND
 
-	public PlayerDigType getAction() {
-		return action;
-	}
-
-	public int getSequence() {
-		return sequence;
-	}
+    }
 }

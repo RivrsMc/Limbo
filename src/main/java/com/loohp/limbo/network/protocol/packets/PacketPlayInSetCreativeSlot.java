@@ -19,31 +19,31 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.inventory.ItemStack;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.inventory.ItemStack;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInSetCreativeSlot extends PacketIn {
 
-	private final int slotNumber;
-	private final ItemStack itemStack;
+    private final int slotNumber;
+    private final ItemStack itemStack;
 
-	public PacketPlayInSetCreativeSlot(int slotNumber, ItemStack itemStack) {
-		this.slotNumber = slotNumber;
-		this.itemStack = itemStack;
-	}
+    public PacketPlayInSetCreativeSlot(int slotNumber, ItemStack itemStack) {
+        this.slotNumber = slotNumber;
+        this.itemStack = itemStack;
+    }
 
-	public PacketPlayInSetCreativeSlot(DataInputStream in) throws IOException {
-		this(in.readShort(), DataTypeIO.readItemStack(in));
-	}
+    public PacketPlayInSetCreativeSlot(DataInputStream in) throws IOException {
+        this(in.readShort(), DataTypeIO.readItemStack(in));
+    }
 
-	public int getSlotNumber() {
-		return slotNumber;
-	}
+    public int getSlotNumber() {
+        return slotNumber;
+    }
 
-	public ItemStack getItemStack() {
-		return itemStack;
-	}
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
 }

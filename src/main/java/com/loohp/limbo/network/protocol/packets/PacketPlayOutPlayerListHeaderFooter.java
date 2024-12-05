@@ -19,42 +19,43 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.text.Component;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketPlayOutPlayerListHeaderFooter extends PacketOut{
-	
-	private final Component header;
-	private final Component footer;
-	
-	public PacketPlayOutPlayerListHeaderFooter(Component header, Component footer) {
-		this.header = header;
-		this.footer = footer;
-	}
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
 
-	public Component getHeader() {
-		return header;
-	}
+import net.kyori.adventure.text.Component;
 
-	public Component getFooter() {
-		return footer;
-	}
-	
-	
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeComponent(output, header);
-		DataTypeIO.writeComponent(output, footer);
-		return buffer.toByteArray();
-	}
+public class PacketPlayOutPlayerListHeaderFooter extends PacketOut {
+
+    private final Component header;
+    private final Component footer;
+
+    public PacketPlayOutPlayerListHeaderFooter(Component header, Component footer) {
+        this.header = header;
+        this.footer = footer;
+    }
+
+    public Component getHeader() {
+        return header;
+    }
+
+    public Component getFooter() {
+        return footer;
+    }
+
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeComponent(output, header);
+        DataTypeIO.writeComponent(output, footer);
+        return buffer.toByteArray();
+    }
 
 }

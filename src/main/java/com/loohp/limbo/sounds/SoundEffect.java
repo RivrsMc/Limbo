@@ -19,11 +19,20 @@
 
 package com.loohp.limbo.sounds;
 
-import net.kyori.adventure.key.Key;
-
 import java.util.Optional;
 
+import net.kyori.adventure.key.Key;
+
 public class SoundEffect {
+
+    private final Key sound;
+    private final float range;
+    private final boolean newSystem;
+    private SoundEffect(Key sound, float range, boolean newSystem) {
+        this.sound = sound;
+        this.range = range;
+        this.newSystem = newSystem;
+    }
 
     public static SoundEffect createVariableRangeEvent(Key key) {
         return new SoundEffect(key, 16.0F, false);
@@ -31,16 +40,6 @@ public class SoundEffect {
 
     public static SoundEffect createFixedRangeEvent(Key key, float range) {
         return new SoundEffect(key, range, true);
-    }
-
-    private final Key sound;
-    private final float range;
-    private final boolean newSystem;
-
-    private SoundEffect(Key sound, float range, boolean newSystem) {
-        this.sound = sound;
-        this.range = range;
-        this.newSystem = newSystem;
     }
 
     public Key getSound() {

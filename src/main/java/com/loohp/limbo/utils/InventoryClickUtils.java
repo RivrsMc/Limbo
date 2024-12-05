@@ -19,28 +19,17 @@
 
 package com.loohp.limbo.utils;
 
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.loohp.limbo.Limbo;
 import com.loohp.limbo.events.inventory.InventoryClickEvent;
 import com.loohp.limbo.events.inventory.InventoryDragEvent;
-import com.loohp.limbo.inventory.ClickType;
-import com.loohp.limbo.inventory.Inventory;
-import com.loohp.limbo.inventory.InventoryAction;
-import com.loohp.limbo.inventory.InventoryClickType;
-import com.loohp.limbo.inventory.InventoryType;
-import com.loohp.limbo.inventory.InventoryView;
-import com.loohp.limbo.inventory.ItemStack;
+import com.loohp.limbo.inventory.*;
 import com.loohp.limbo.network.protocol.packets.PacketPlayInWindowClick;
 import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
 import com.loohp.limbo.player.Player;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InventoryClickUtils {
 
@@ -72,7 +61,7 @@ public class InventoryClickUtils {
                         if (inventory.getCarriedItem() != null) {
                             action = packetplayinwindowclick.getButtonNum() == 0 ? InventoryAction.DROP_ALL_CURSOR : InventoryAction.DROP_ONE_CURSOR;
                         }
-                    } else if (packetplayinwindowclick.getSlotNum() < 0)  {
+                    } else if (packetplayinwindowclick.getSlotNum() < 0) {
                         action = InventoryAction.NOTHING;
                     } else {
                         ItemStack clickedItem = inventory.getItem(rawSlot);
@@ -517,9 +506,9 @@ public class InventoryClickUtils {
 
     public static class QuickCraftInfo {
 
+        public final Set<Integer> quickcraftSlots = ConcurrentHashMap.newKeySet();
         public int quickcraftType;
         public int quickcraftStatus;
-        public final Set<Integer> quickcraftSlots = ConcurrentHashMap.newKeySet();
 
         public void resetQuickCraft() {
             quickcraftStatus = 0;

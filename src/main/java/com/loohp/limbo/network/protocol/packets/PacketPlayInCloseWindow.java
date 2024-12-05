@@ -24,17 +24,17 @@ import java.io.IOException;
 
 public class PacketPlayInCloseWindow extends PacketIn {
 
-	private final int containerId;
+    private final int containerId;
 
-	public PacketPlayInCloseWindow(int containerId) {
-		this.containerId = containerId;
-	}
+    public PacketPlayInCloseWindow(int containerId) {
+        this.containerId = containerId;
+    }
 
-	public PacketPlayInCloseWindow(DataInputStream in) throws IOException {
-		this(in.readByte());
-	}
+    public PacketPlayInCloseWindow(DataInputStream in) throws IOException {
+        this(in.readByte());
+    }
 
-	public int getContainerId() {
-		return containerId;
-	}
+    public int getContainerId() {
+        return containerId;
+    }
 }

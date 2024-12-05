@@ -19,16 +19,17 @@
 
 package com.loohp.limbo.registry;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 import com.google.gson.JsonElement;
 import com.loohp.limbo.utils.NbtComponentSerializer;
+
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.querz.nbt.tag.Tag;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 public class DataComponentType<T> {
 
@@ -41,6 +42,17 @@ public class DataComponentType<T> {
         JsonElement element = NbtComponentSerializer.tagComponentToJson(tag);
         return GsonComponentSerializer.gson().deserializeFromTree(element);
     })));
+    private final Key key;
+    private final DataComponentCodec<T> codec;
+
+    @SuppressWarnings("PatternValidation")
+    public DataComponentType(String key, DataComponentCodec<T> codec) {
+        this(Key.key(key), codec);
+    }
+    public DataComponentType(Key key, DataComponentCodec<T> codec) {
+        this.key = key;
+        this.codec = codec;
+    }
 
     public static <T> DataComponentType<T> register(DataComponentType<T> type) {
         REGISTERED_TYPES.put(type.getKey(), type);
@@ -49,19 +61,6 @@ public class DataComponentType<T> {
 
     public static boolean isKnownType(Key key) {
         return REGISTERED_TYPES.containsKey(key);
-    }
-
-    private final Key key;
-    private final DataComponentCodec<T> codec;
-
-    @SuppressWarnings("PatternValidation")
-    public DataComponentType(String key, DataComponentCodec<T> codec) {
-        this(Key.key(key), codec);
-    }
-
-    public DataComponentType(Key key, DataComponentCodec<T> codec) {
-        this.key = key;
-        this.codec = codec;
     }
 
     public Key getKey() {
@@ -83,7 +82,7 @@ public class DataComponentType<T> {
         }
 
         public Tag<?> encode(T t) {
-            return encode.apply((T) t);
+            return encode.apply(t);
         }
 
         public T decode(Tag<?> tag) {

@@ -19,41 +19,41 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import com.loohp.limbo.world.BlockPosition;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketPlayOutSpawnPosition extends PacketOut {
-	
-	private final BlockPosition position;
-	private final float angle;
-	
-	public PacketPlayOutSpawnPosition(BlockPosition position, float angle) {
-		this.position = position;
-		this.angle = angle;
-	}
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+import com.loohp.limbo.world.BlockPosition;
 
-	public BlockPosition getPosition() {
-		return position;
-	}
-	
-	public float getAngle() {
-		return angle;
-	}
-	
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeBlockPosition(output, position);
-		output.writeFloat(angle);
-		
-		return buffer.toByteArray();
-	}
+public class PacketPlayOutSpawnPosition extends PacketOut {
+
+    private final BlockPosition position;
+    private final float angle;
+
+    public PacketPlayOutSpawnPosition(BlockPosition position, float angle) {
+        this.position = position;
+        this.angle = angle;
+    }
+
+    public BlockPosition getPosition() {
+        return position;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeBlockPosition(output, position);
+        output.writeFloat(angle);
+
+        return buffer.toByteArray();
+    }
 
 }

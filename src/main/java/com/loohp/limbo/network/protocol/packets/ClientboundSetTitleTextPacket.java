@@ -19,35 +19,36 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.text.Component;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
+import net.kyori.adventure.text.Component;
+
 public class ClientboundSetTitleTextPacket extends PacketOut {
-	
-	private final Component titleText;
 
-	public ClientboundSetTitleTextPacket(Component titleText) {
-		this.titleText = titleText;
-	}
+    private final Component titleText;
 
-	public Component getTitle() {
-		return titleText;
-	}
+    public ClientboundSetTitleTextPacket(Component titleText) {
+        this.titleText = titleText;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeComponent(output, titleText);
-		
-		return buffer.toByteArray();
-	}
+    public Component getTitle() {
+        return titleText;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeComponent(output, titleText);
+
+        return buffer.toByteArray();
+    }
 
 }

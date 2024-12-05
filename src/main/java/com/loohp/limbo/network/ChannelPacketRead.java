@@ -19,15 +19,15 @@
 
 package com.loohp.limbo.network;
 
-import com.loohp.limbo.network.protocol.packets.PacketIn;
-
 import java.io.DataInput;
+
+import com.loohp.limbo.network.protocol.packets.PacketIn;
 
 public final class ChannelPacketRead {
 
     private int size;
     private int packetId;
-    private DataInput input;
+    private final DataInput input;
     private PacketIn packet;
 
     ChannelPacketRead(int size, int packetId, DataInput input) {

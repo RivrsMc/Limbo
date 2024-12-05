@@ -23,8 +23,8 @@ import com.loohp.limbo.player.Player;
 
 public class PlayerJoinEvent extends PlayerEvent {
 
-	public PlayerJoinEvent(Player player) {
-		super(player);
-	}
+    public PlayerJoinEvent(Player player) {
+        super(player);
+    }
 
 }

@@ -34,13 +34,13 @@ public class PlayerSelectedSlotChangeEvent extends PlayerEvent implements Cancel
     }
 
     @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     @Override
-    public boolean isCancelled() {
-        return cancelled;
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public byte getSlot() {

@@ -26,25 +26,25 @@ import net.kyori.adventure.key.Key;
 @Deprecated
 public class Unsafe {
 
-	@Deprecated
-	public static KeyedBossBar a(Key key, BossBar properties) {
-		return new KeyedBossBar(key, properties);
-	}
+    private final KeyedBossBar instance;
 
-	private final KeyedBossBar instance;
-	
-	protected Unsafe(KeyedBossBar instance) {
-		this.instance = instance;
-	}
+    protected Unsafe(KeyedBossBar instance) {
+        this.instance = instance;
+    }
 
-	@Deprecated
-	public KeyedBossBar.LimboBossBarHandler a() {
-		return instance.listener;
-	}
+    @Deprecated
+    public static KeyedBossBar a(Key key, BossBar properties) {
+        return new KeyedBossBar(key, properties);
+    }
 
-	@Deprecated
-	public void b() {
-		instance.valid.set(false);
-	}
+    @Deprecated
+    public KeyedBossBar.LimboBossBarHandler a() {
+        return instance.listener;
+    }
+
+    @Deprecated
+    public void b() {
+        instance.valid.set(false);
+    }
 
 }

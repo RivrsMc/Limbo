@@ -19,8 +19,6 @@
 
 package com.loohp.limbo.network;
 
-import com.loohp.limbo.Limbo;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -28,46 +26,48 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.loohp.limbo.Limbo;
+
 public class ServerConnection extends Thread {
 
-	private final String ip;
-	private final int port;
-	private final boolean silent;
-	private ServerSocket serverSocket;
-	private List<ClientConnection> clients;
+    private final String ip;
+    private final int port;
+    private final boolean silent;
+    private ServerSocket serverSocket;
+    private final List<ClientConnection> clients;
 
-	public ServerConnection(String ip, int port, boolean silent) {
-		this.clients = new ArrayList<>();
-		this.ip = ip;
-		this.port = port;
-		this.silent = silent;
-		start();
-	}
-	
-	@Override
-	public void run() {
-		try {
-			serverSocket = new ServerSocket(port, 50, InetAddress.getByName(ip));
-			if (!silent) {
-				Limbo.getInstance().getConsole().sendMessage("Limbo server listening on /" + serverSocket.getInetAddress().getHostName() + ":" + serverSocket.getLocalPort());
-			}
-	        while (true) {
-	            Socket connection = serverSocket.accept();
-	            ClientConnection sc = new ClientConnection(connection);
-	            clients.add(sc);
-	            sc.start();
-	        }
-	    } catch(IOException e) {
-	        e.printStackTrace();
-	    }
-	}
+    public ServerConnection(String ip, int port, boolean silent) {
+        this.clients = new ArrayList<>();
+        this.ip = ip;
+        this.port = port;
+        this.silent = silent;
+        start();
+    }
 
-	public ServerSocket getServerSocket() {
-		return serverSocket;
-	}
+    @Override
+    public void run() {
+        try {
+            serverSocket = new ServerSocket(port, 50, InetAddress.getByName(ip));
+            if (!silent) {
+                Limbo.getInstance().getConsole().sendMessage("Limbo server listening on /" + serverSocket.getInetAddress().getHostName() + ":" + serverSocket.getLocalPort());
+            }
+            while (true) {
+                Socket connection = serverSocket.accept();
+                ClientConnection sc = new ClientConnection(connection);
+                clients.add(sc);
+                sc.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public List<ClientConnection> getClients() {
-		return clients;
-	}
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public List<ClientConnection> getClients() {
+        return clients;
+    }
 
 }

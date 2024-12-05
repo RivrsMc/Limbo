@@ -19,13 +19,6 @@
 
 package com.loohp.limbo.bossbar;
 
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutBoss;
-import com.loohp.limbo.player.Player;
-import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
@@ -33,14 +26,23 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.loohp.limbo.network.protocol.packets.PacketPlayOutBoss;
+import com.loohp.limbo.player.Player;
+
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+
 public class KeyedBossBar {
 
+    protected final LimboBossBarHandler listener;
+    protected final AtomicBoolean valid;
     private final UUID uuid;
     private final Key key;
     private final BossBar properties;
     private final Set<Player> players;
-    protected final LimboBossBarHandler listener;
-    protected final AtomicBoolean valid;
     private final Unsafe unsafe;
 
     KeyedBossBar(Key key, BossBar properties) {

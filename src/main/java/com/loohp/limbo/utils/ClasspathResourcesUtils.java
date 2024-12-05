@@ -38,8 +38,7 @@ public class ClasspathResourcesUtils {
      * for all elements of java.class.path get a Collection of resources Pattern
      * pattern = Pattern.compile(".*"); gets all resources
      *
-     * @param pattern
-     *            the pattern to match
+     * @param pattern the pattern to match
      * @return the resources in the order they are found
      */
     public static Collection<String> getResources(Pattern pattern) {
@@ -57,7 +56,7 @@ public class ClasspathResourcesUtils {
         File file = new File(element);
         if (file.isDirectory()) {
             retval.addAll(getResourcesFromDirectory(file, pattern));
-        } else{
+        } else {
             retval.addAll(getResourcesFromJarFile(file, pattern));
         }
         return retval;
@@ -68,7 +67,7 @@ public class ClasspathResourcesUtils {
         ZipFile zf;
         try {
             zf = new ZipFile(file);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new Error(e);
         }
         Enumeration<? extends ZipEntry> e = zf.entries();
@@ -88,7 +87,7 @@ public class ClasspathResourcesUtils {
         return retval;
     }
 
-    private static Collection<String> getResourcesFromDirectory(File directory, Pattern pattern){
+    private static Collection<String> getResourcesFromDirectory(File directory, Pattern pattern) {
         List<String> retval = new ArrayList<>();
         File[] fileList = directory.listFiles();
         for (File file : fileList) {

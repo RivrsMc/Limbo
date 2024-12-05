@@ -19,26 +19,20 @@
 
 package com.loohp.limbo.inventory;
 
-import com.loohp.limbo.location.Location;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowItems;
-import com.loohp.limbo.player.Player;
-import net.kyori.adventure.key.Key;
-
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
+
+import com.loohp.limbo.location.Location;
+import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
+import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowItems;
+import com.loohp.limbo.player.Player;
+
+import net.kyori.adventure.key.Key;
 
 public abstract class AbstractInventory implements Inventory {
 

@@ -19,10 +19,10 @@
 
 package com.loohp.limbo.entity;
 
+import java.util.EnumMap;
+
 import com.loohp.limbo.inventory.EquipmentSlot;
 import com.loohp.limbo.inventory.ItemStack;
-
-import java.util.EnumMap;
 
 public class StandardEntityEquipment implements EntityEquipment {
 

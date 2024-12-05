@@ -45,6 +45,7 @@ public class MessageSignature {
     public static void write(DataOutputStream out, MessageSignature messagesignature) throws IOException {
         out.write(messagesignature.bytes);
     }
+
     public ByteBuffer asByteBuffer() {
         return ByteBuffer.wrap(this.bytes);
     }
@@ -100,14 +101,6 @@ public class MessageSignature {
             this(i, null);
         }
 
-        public int id() {
-            return id;
-        }
-
-        public MessageSignature fullSignature() {
-            return fullSignature;
-        }
-
         public static MessageSignature.a read(DataInputStream in) throws IOException {
             int i = DataTypeIO.readVarInt(in) - 1;
             return i == -1 ? new MessageSignature.a(MessageSignature.read(in)) : new MessageSignature.a(i);
@@ -119,6 +112,14 @@ public class MessageSignature {
                 MessageSignature.write(out, messagesignature_a.fullSignature());
             }
 
+        }
+
+        public int id() {
+            return id;
+        }
+
+        public MessageSignature fullSignature() {
+            return fullSignature;
         }
     }
 }

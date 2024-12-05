@@ -19,42 +19,41 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class ServerboundResourcePackPacket extends PacketIn {
-	
-	public enum Action {
 
-		SUCCESSFULLY_LOADED, DECLINED, FAILED_DOWNLOAD, ACCEPTED, DOWNLOADED, INVALID_URL, FAILED_RELOAD, DISCARDED;
+    private final UUID id;
+    private final Action action;
+    public ServerboundResourcePackPacket(UUID id, Action action) {
+        this.id = id;
+        this.action = action;
+    }
 
-		public boolean isTerminal() {
-			return this != ACCEPTED && this != DOWNLOADED;
-		}
+    public ServerboundResourcePackPacket(DataInputStream in) throws IOException {
+        this(DataTypeIO.readUUID(in), Action.values()[DataTypeIO.readVarInt(in)]);
+    }
 
-	}
+    public UUID getId() {
+        return id;
+    }
 
-	private final UUID id;
-	private final Action action;
-	
-	public ServerboundResourcePackPacket(UUID id, Action action) {
-		this.id = id;
-		this.action = action;
-	}
-	
-	public ServerboundResourcePackPacket(DataInputStream in) throws IOException {
-		this(DataTypeIO.readUUID(in), Action.values()[DataTypeIO.readVarInt(in)]);
-	}
+    public Action getAction() {
+        return action;
+    }
 
-	public UUID getId() {
-		return id;
-	}
+    public enum Action {
 
-	public Action getAction() {
-		return action;
-	}
+        SUCCESSFULLY_LOADED, DECLINED, FAILED_DOWNLOAD, ACCEPTED, DOWNLOADED, INVALID_URL, FAILED_RELOAD, DISCARDED;
+
+        public boolean isTerminal() {
+            return this != ACCEPTED && this != DOWNLOADED;
+        }
+
+    }
 
 }

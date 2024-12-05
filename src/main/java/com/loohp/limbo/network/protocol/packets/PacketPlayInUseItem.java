@@ -19,38 +19,38 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import com.loohp.limbo.inventory.EquipmentSlot;
 import com.loohp.limbo.location.MovingObjectPositionBlock;
 import com.loohp.limbo.utils.DataTypeIO;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-
 public class PacketPlayInUseItem extends PacketIn {
 
-	private final EquipmentSlot hand;
-	private final MovingObjectPositionBlock blockHit;
-	private final int sequence;
+    private final EquipmentSlot hand;
+    private final MovingObjectPositionBlock blockHit;
+    private final int sequence;
 
-	public PacketPlayInUseItem(EquipmentSlot hand, MovingObjectPositionBlock blockHit, int sequence) {
-		this.hand = hand;
-		this.blockHit = blockHit;
-		this.sequence = sequence;
-	}
+    public PacketPlayInUseItem(EquipmentSlot hand, MovingObjectPositionBlock blockHit, int sequence) {
+        this.hand = hand;
+        this.blockHit = blockHit;
+        this.sequence = sequence;
+    }
 
-	public PacketPlayInUseItem(DataInputStream in) throws IOException {
-		this(EquipmentSlot.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readBlockHitResult(in), DataTypeIO.readVarInt(in));
-	}
+    public PacketPlayInUseItem(DataInputStream in) throws IOException {
+        this(EquipmentSlot.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readBlockHitResult(in), DataTypeIO.readVarInt(in));
+    }
 
-	public EquipmentSlot getHand() {
-		return hand;
-	}
+    public EquipmentSlot getHand() {
+        return hand;
+    }
 
-	public MovingObjectPositionBlock getBlockHit() {
-		return blockHit;
-	}
+    public MovingObjectPositionBlock getBlockHit() {
+        return blockHit;
+    }
 
-	public int getSequence() {
-		return sequence;
-	}
+    public int getSequence() {
+        return sequence;
+    }
 }

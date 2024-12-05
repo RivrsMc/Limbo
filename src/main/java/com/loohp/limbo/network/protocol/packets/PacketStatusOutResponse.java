@@ -19,35 +19,35 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketStatusOutResponse extends PacketOut {
-	
-	private final String json;
-	
-	public PacketStatusOutResponse(String json) {
-		this.json = json;
-	}
-	
-	public String getJson() {
-		return json;
-	}
-	
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeString(output, json, StandardCharsets.UTF_8);
-		
-		return buffer.toByteArray();
-	}
+
+    private final String json;
+
+    public PacketStatusOutResponse(String json) {
+        this.json = json;
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeString(output, json, StandardCharsets.UTF_8);
+
+        return buffer.toByteArray();
+    }
 
 }

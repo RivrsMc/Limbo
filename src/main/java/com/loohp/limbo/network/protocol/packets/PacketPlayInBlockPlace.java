@@ -19,31 +19,31 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.inventory.EquipmentSlot;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.inventory.EquipmentSlot;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInBlockPlace extends PacketIn {
 
-	private final EquipmentSlot hand;
-	private final int sequence;
+    private final EquipmentSlot hand;
+    private final int sequence;
 
-	public PacketPlayInBlockPlace(EquipmentSlot hand, int sequence) {
-		this.hand = hand;
-		this.sequence = sequence;
-	}
+    public PacketPlayInBlockPlace(EquipmentSlot hand, int sequence) {
+        this.hand = hand;
+        this.sequence = sequence;
+    }
 
-	public PacketPlayInBlockPlace(DataInputStream in) throws IOException {
-		this(EquipmentSlot.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readVarInt(in));
-	}
+    public PacketPlayInBlockPlace(DataInputStream in) throws IOException {
+        this(EquipmentSlot.values()[DataTypeIO.readVarInt(in)], DataTypeIO.readVarInt(in));
+    }
 
-	public EquipmentSlot getHand() {
-		return hand;
-	}
+    public EquipmentSlot getHand() {
+        return hand;
+    }
 
-	public int getSequence() {
-		return sequence;
-	}
+    public int getSequence() {
+        return sequence;
+    }
 }

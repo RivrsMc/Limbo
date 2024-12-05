@@ -54,16 +54,40 @@ import net.md_5.bungee.api.chat.BaseComponent;
 public class Console implements CommandSender {
 
     protected static final Map<ChatColor, String> REPLACEMENTS = new HashMap<>();
-    private final static String CONSOLE = "CONSOLE";
-    private final static String PROMPT = "> ";
     protected final static String ERROR_RED = "\u001B[31;1m";
     protected final static String RESET_COLOR = "\u001B[0m";
+    private final static String CONSOLE = "CONSOLE";
+    private final static String PROMPT = "> ";
 
+    static {
+        REPLACEMENTS.put(ChatColor.BLACK, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLACK).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_BLUE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLUE).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_GREEN, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.GREEN).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_AQUA, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.CYAN).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_RED, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.RED).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_PURPLE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.MAGENTA).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.GOLD, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.YELLOW).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.GRAY, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.WHITE).boldOff().toString());
+        REPLACEMENTS.put(ChatColor.DARK_GRAY, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLACK).bold().toString());
+        REPLACEMENTS.put(ChatColor.BLUE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLUE).bold().toString());
+        REPLACEMENTS.put(ChatColor.GREEN, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.GREEN).bold().toString());
+        REPLACEMENTS.put(ChatColor.AQUA, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.CYAN).bold().toString());
+        REPLACEMENTS.put(ChatColor.RED, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.RED).bold().toString());
+        REPLACEMENTS.put(ChatColor.LIGHT_PURPLE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.MAGENTA).bold().toString());
+        REPLACEMENTS.put(ChatColor.YELLOW, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.YELLOW).bold().toString());
+        REPLACEMENTS.put(ChatColor.WHITE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.WHITE).bold().toString());
+        REPLACEMENTS.put(ChatColor.MAGIC, Ansi.ansi().a(Attribute.BLINK_SLOW).toString());
+        REPLACEMENTS.put(ChatColor.BOLD, Ansi.ansi().a(Attribute.UNDERLINE_DOUBLE).toString());
+        REPLACEMENTS.put(ChatColor.STRIKETHROUGH, Ansi.ansi().a(Attribute.STRIKETHROUGH_ON).toString());
+        REPLACEMENTS.put(ChatColor.UNDERLINE, Ansi.ansi().a(Attribute.UNDERLINE).toString());
+        REPLACEMENTS.put(ChatColor.ITALIC, Ansi.ansi().a(Attribute.ITALIC).toString());
+        REPLACEMENTS.put(ChatColor.RESET, Ansi.ansi().a(Attribute.RESET).toString());
+    }
+
+    protected final PrintStream logs;
     private final LineReader tabReader;
     private final ConsoleReader reader;
-
     private final InputStream in;
-    protected final PrintStream logs;
 
     public Console(InputStream in, PrintStream out, PrintStream err) throws IOException {
         String fileName = new SimpleDateFormat("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss'_'zzz'.log'").format(new Date());
@@ -108,6 +132,14 @@ public class Console implements CommandSender {
             }
         }).build();
         tabReader.setAutosuggestion(SuggestionType.NONE);
+    }
+
+    protected static String translateToConsole(String str) {
+        for (Entry<ChatColor, String> entry : REPLACEMENTS.entrySet()) {
+            str = str.replace(entry.getKey().toString(), entry.getValue());
+        }
+        str = str.replaceAll("(?i)" + ChatColor.COLOR_CHAR + "x(" + ChatColor.COLOR_CHAR + "[0-9a-f]){6}", "");
+        return str + RESET_COLOR;
     }
 
     @Override
@@ -261,39 +293,6 @@ public class Console implements CommandSender {
             tabReader.getTerminal().writer().flush();
         } catch (Exception ignore) {
         }
-    }
-
-    static {
-        REPLACEMENTS.put(ChatColor.BLACK, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLACK).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_BLUE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLUE).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_GREEN, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.GREEN).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_AQUA, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.CYAN).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_RED, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.RED).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_PURPLE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.MAGENTA).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.GOLD, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.YELLOW).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.GRAY, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.WHITE).boldOff().toString());
-        REPLACEMENTS.put(ChatColor.DARK_GRAY, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLACK).bold().toString());
-        REPLACEMENTS.put(ChatColor.BLUE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.BLUE).bold().toString());
-        REPLACEMENTS.put(ChatColor.GREEN, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.GREEN).bold().toString());
-        REPLACEMENTS.put(ChatColor.AQUA, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.CYAN).bold().toString());
-        REPLACEMENTS.put(ChatColor.RED, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.RED).bold().toString());
-        REPLACEMENTS.put(ChatColor.LIGHT_PURPLE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.MAGENTA).bold().toString());
-        REPLACEMENTS.put(ChatColor.YELLOW, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.YELLOW).bold().toString());
-        REPLACEMENTS.put(ChatColor.WHITE, Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.WHITE).bold().toString());
-        REPLACEMENTS.put(ChatColor.MAGIC, Ansi.ansi().a(Attribute.BLINK_SLOW).toString());
-        REPLACEMENTS.put(ChatColor.BOLD, Ansi.ansi().a(Attribute.UNDERLINE_DOUBLE).toString());
-        REPLACEMENTS.put(ChatColor.STRIKETHROUGH, Ansi.ansi().a(Attribute.STRIKETHROUGH_ON).toString());
-        REPLACEMENTS.put(ChatColor.UNDERLINE, Ansi.ansi().a(Attribute.UNDERLINE).toString());
-        REPLACEMENTS.put(ChatColor.ITALIC, Ansi.ansi().a(Attribute.ITALIC).toString());
-        REPLACEMENTS.put(ChatColor.RESET, Ansi.ansi().a(Attribute.RESET).toString());
-    }
-
-    protected static String translateToConsole(String str) {
-        for (Entry<ChatColor, String> entry : REPLACEMENTS.entrySet()) {
-            str = str.replace(entry.getKey().toString(), entry.getValue());
-        }
-        str = str.replaceAll("(?i)" + ChatColor.COLOR_CHAR + "x(" + ChatColor.COLOR_CHAR + "[0-9a-f]){6}", "");
-        return str + RESET_COLOR;
     }
 
     public static class ConsoleOutputStream extends PrintStream {

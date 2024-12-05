@@ -19,78 +19,78 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.inventory.InventoryClickType;
-import com.loohp.limbo.inventory.ItemStack;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.loohp.limbo.inventory.InventoryClickType;
+import com.loohp.limbo.inventory.ItemStack;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInWindowClick extends PacketIn {
 
-	private final int containerId;
-	private final int stateId;
-	private final int slotNum;
-	private final int buttonNum;
-	private final InventoryClickType clickType;
-	private final Map<Integer, ItemStack> changedSlots;
-	private final ItemStack carriedItem;
+    private final int containerId;
+    private final int stateId;
+    private final int slotNum;
+    private final int buttonNum;
+    private final InventoryClickType clickType;
+    private final Map<Integer, ItemStack> changedSlots;
+    private final ItemStack carriedItem;
 
-	public PacketPlayInWindowClick(int containerId, int stateId, int slotNum, int buttonNum, InventoryClickType clickType, Map<Integer, ItemStack> changedSlots, ItemStack carriedItem) {
-		this.containerId = containerId;
-		this.stateId = stateId;
-		this.slotNum = slotNum;
-		this.buttonNum = buttonNum;
-		this.clickType = clickType;
-		this.changedSlots = changedSlots;
-		this.carriedItem = carriedItem;
-	}
+    public PacketPlayInWindowClick(int containerId, int stateId, int slotNum, int buttonNum, InventoryClickType clickType, Map<Integer, ItemStack> changedSlots, ItemStack carriedItem) {
+        this.containerId = containerId;
+        this.stateId = stateId;
+        this.slotNum = slotNum;
+        this.buttonNum = buttonNum;
+        this.clickType = clickType;
+        this.changedSlots = changedSlots;
+        this.carriedItem = carriedItem;
+    }
 
-	public PacketPlayInWindowClick(DataInputStream in) throws IOException {
-		this.containerId = in.readByte();
-		this.stateId = DataTypeIO.readVarInt(in);
-		this.slotNum = in.readShort();
-		this.buttonNum = in.readByte();
-		this.clickType = InventoryClickType.values()[DataTypeIO.readVarInt(in)];
-		Map<Integer, ItemStack> changedSlots = new HashMap<>();
-		int size = DataTypeIO.readVarInt(in);
-		for (int i = 0; i < size; i++) {
-			int slot = in.readShort();
-			ItemStack itemStack = DataTypeIO.readItemStack(in);
-			changedSlots.put(slot, itemStack);
-		}
-		this.changedSlots = Collections.unmodifiableMap(changedSlots);
-		this.carriedItem = DataTypeIO.readItemStack(in);
-	}
+    public PacketPlayInWindowClick(DataInputStream in) throws IOException {
+        this.containerId = in.readByte();
+        this.stateId = DataTypeIO.readVarInt(in);
+        this.slotNum = in.readShort();
+        this.buttonNum = in.readByte();
+        this.clickType = InventoryClickType.values()[DataTypeIO.readVarInt(in)];
+        Map<Integer, ItemStack> changedSlots = new HashMap<>();
+        int size = DataTypeIO.readVarInt(in);
+        for (int i = 0; i < size; i++) {
+            int slot = in.readShort();
+            ItemStack itemStack = DataTypeIO.readItemStack(in);
+            changedSlots.put(slot, itemStack);
+        }
+        this.changedSlots = Collections.unmodifiableMap(changedSlots);
+        this.carriedItem = DataTypeIO.readItemStack(in);
+    }
 
-	public int getContainerId() {
-		return containerId;
-	}
+    public int getContainerId() {
+        return containerId;
+    }
 
-	public int getStateId() {
-		return stateId;
-	}
+    public int getStateId() {
+        return stateId;
+    }
 
-	public int getSlotNum() {
-		return slotNum;
-	}
+    public int getSlotNum() {
+        return slotNum;
+    }
 
-	public int getButtonNum() {
-		return buttonNum;
-	}
+    public int getButtonNum() {
+        return buttonNum;
+    }
 
-	public InventoryClickType getClickType() {
-		return clickType;
-	}
+    public InventoryClickType getClickType() {
+        return clickType;
+    }
 
-	public Map<Integer, ItemStack> getChangedSlots() {
-		return changedSlots;
-	}
+    public Map<Integer, ItemStack> getChangedSlots() {
+        return changedSlots;
+    }
 
-	public ItemStack getCarriedItem() {
-		return carriedItem;
-	}
+    public ItemStack getCarriedItem() {
+        return carriedItem;
+    }
 }

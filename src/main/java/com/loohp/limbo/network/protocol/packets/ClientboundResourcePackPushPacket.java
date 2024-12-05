@@ -19,75 +19,76 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.text.Component;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
+import net.kyori.adventure.text.Component;
+
 public class ClientboundResourcePackPushPacket extends PacketOut {
-	
-	public static final int MAX_HASH_LENGTH = 40;
 
-	private final UUID id;
-	private final String url;
-	private final String hash;
-	private final boolean required;
-	private final Component prompt;
+    public static final int MAX_HASH_LENGTH = 40;
 
-	public ClientboundResourcePackPushPacket(UUID id, String url, String hash, boolean required, Component promptMessage) {
-		if (hash.length() > MAX_HASH_LENGTH) {
+    private final UUID id;
+    private final String url;
+    private final String hash;
+    private final boolean required;
+    private final Component prompt;
+
+    public ClientboundResourcePackPushPacket(UUID id, String url, String hash, boolean required, Component promptMessage) {
+        if (hash.length() > MAX_HASH_LENGTH) {
             throw new IllegalArgumentException("Hash is too long (max " + MAX_HASH_LENGTH + ", was " + hash.length() + ")");
         }
-		this.id = id;
-		this.url = url;
-		this.hash = hash;
-		this.required = required;
-		this.prompt = promptMessage;
-	}
+        this.id = id;
+        this.url = url;
+        this.hash = hash;
+        this.required = required;
+        this.prompt = promptMessage;
+    }
 
-	public UUID getId() {
-		return id;
-	}
+    public UUID getId() {
+        return id;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getHash() {
-		return hash;
-	}
+    public String getHash() {
+        return hash;
+    }
 
-	public boolean isRequired() {
-		return required;
-	}
+    public boolean isRequired() {
+        return required;
+    }
 
-	public Component getPrompt() {
-		return prompt;
-	}
+    public Component getPrompt() {
+        return prompt;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeUUID(output, id);
-		DataTypeIO.writeString(output, url, StandardCharsets.UTF_8);
-		DataTypeIO.writeString(output, hash, StandardCharsets.UTF_8);
-		output.writeBoolean(required);
-		if (prompt == null) {
-			output.writeBoolean(false);
-		} else {
-			output.writeBoolean(true);
-			DataTypeIO.writeComponent(output, prompt);
-		}
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-		return buffer.toByteArray();
-	}
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeUUID(output, id);
+        DataTypeIO.writeString(output, url, StandardCharsets.UTF_8);
+        DataTypeIO.writeString(output, hash, StandardCharsets.UTF_8);
+        output.writeBoolean(required);
+        if (prompt == null) {
+            output.writeBoolean(false);
+        } else {
+            output.writeBoolean(true);
+            DataTypeIO.writeComponent(output, prompt);
+        }
+
+        return buffer.toByteArray();
+    }
 
 }

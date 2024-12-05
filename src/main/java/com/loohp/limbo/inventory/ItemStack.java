@@ -19,15 +19,16 @@
 
 package com.loohp.limbo.inventory;
 
-import com.loohp.limbo.registry.DataComponentType;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.Component;
-import net.querz.nbt.tag.Tag;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import com.loohp.limbo.registry.DataComponentType;
+
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.querz.nbt.tag.Tag;
 
 public class ItemStack implements Cloneable {
 
@@ -133,9 +134,9 @@ public class ItemStack implements Cloneable {
     @Override
     public String toString() {
         return "ItemStack{" +
-                "material=" + material +
-                ", amount=" + amount +
-                ", components=" + components +
-                '}';
+               "material=" + material +
+               ", amount=" + amount +
+               ", components=" + components +
+               '}';
     }
 }

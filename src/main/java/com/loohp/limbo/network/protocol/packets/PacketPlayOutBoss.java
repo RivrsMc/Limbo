@@ -19,24 +19,24 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.bossbar.KeyedBossBar;
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.bossbar.BossBar;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.bossbar.KeyedBossBar;
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
+import net.kyori.adventure.bossbar.BossBar;
+
 public class PacketPlayOutBoss extends PacketOut {
 
-    public enum BossBarAction {
-        ADD,
-        REMOVE,
-        UPDATE_PROGRESS,
-        UPDATE_NAME,
-        UPDATE_STYLE,
-        UPDATE_PROPERTIES;
+    private final KeyedBossBar bossBar;
+    private final BossBarAction action;
+
+    public PacketPlayOutBoss(KeyedBossBar bossBar, BossBarAction action) {
+        this.bossBar = bossBar;
+        this.action = action;
     }
 
     private static int encodeProperties(boolean darkenScreen, boolean playMusic, boolean createWorldFog) {
@@ -51,14 +51,6 @@ public class PacketPlayOutBoss extends PacketOut {
             i |= 4;
         }
         return i;
-    }
-
-    private final KeyedBossBar bossBar;
-    private final BossBarAction action;
-
-    public PacketPlayOutBoss(KeyedBossBar bossBar, BossBarAction action) {
-        this.bossBar = bossBar;
-        this.action = action;
     }
 
     public KeyedBossBar getBossBar() {
@@ -112,5 +104,14 @@ public class PacketPlayOutBoss extends PacketOut {
         }
 
         return buffer.toByteArray();
+    }
+
+    public enum BossBarAction {
+        ADD,
+        REMOVE,
+        UPDATE_PROGRESS,
+        UPDATE_NAME,
+        UPDATE_STYLE,
+        UPDATE_PROPERTIES
     }
 }

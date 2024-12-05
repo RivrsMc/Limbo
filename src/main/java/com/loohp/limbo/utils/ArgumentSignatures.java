@@ -34,7 +34,7 @@ public class ArgumentSignatures {
     private static final int MAX_ARGUMENT_COUNT = 8;
     private static final int MAX_ARGUMENT_NAME_LENGTH = 16;
 
-    private List<a> entries;
+    private final List<a> entries;
 
     public ArgumentSignatures(List<a> entries) {
         this.entries = entries;
@@ -71,6 +71,13 @@ public class ArgumentSignatures {
         }
     }
 
+    @FunctionalInterface
+    public interface b {
+
+        MessageSignature sign(String s);
+
+    }
+
     public static class a {
 
         private final String name;
@@ -89,13 +96,6 @@ public class ArgumentSignatures {
             DataTypeIO.writeString(out, this.name, StandardCharsets.UTF_8);
             MessageSignature.write(out, this.signature);
         }
-    }
-
-    @FunctionalInterface
-    public interface b {
-
-        MessageSignature sign(String s);
-
     }
 
 }

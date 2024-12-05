@@ -19,15 +19,6 @@
 
 package com.loohp.limbo.registry;
 
-import com.loohp.limbo.Limbo;
-import com.loohp.limbo.utils.ClasspathResourcesUtils;
-import com.loohp.limbo.utils.CustomNBTUtils;
-import net.kyori.adventure.key.Key;
-import net.querz.nbt.tag.CompoundTag;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,6 +28,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.loohp.limbo.Limbo;
+import com.loohp.limbo.utils.ClasspathResourcesUtils;
+import com.loohp.limbo.utils.CustomNBTUtils;
+
+import net.kyori.adventure.key.Key;
+import net.querz.nbt.tag.CompoundTag;
 
 public class RegistryCustom {
 
@@ -48,21 +50,6 @@ public class RegistryCustom {
     public static final RegistryCustom PAINTING_VARIANT = register("painting_variant");
     public static final RegistryCustom WOLF_VARIANT = register("wolf_variant");
     public static final RegistryCustom WORLDGEN_BIOME = register("worldgen/biome");
-
-    private static RegistryCustom register(String identifier) {
-        RegistryCustom registryCustom = new RegistryCustom(identifier);
-        REGISTRIES.put(registryCustom.getIdentifier(), registryCustom);
-        return registryCustom;
-    }
-
-    public static RegistryCustom getRegistry(Key identifier) {
-        return REGISTRIES.get(identifier);
-    }
-
-    public static Collection<RegistryCustom> getRegistries() {
-        return REGISTRIES.values();
-    }
-
     private final Key identifier;
     private final Map<Key, CompoundTag> entries;
 
@@ -75,7 +62,6 @@ public class RegistryCustom {
     public RegistryCustom(String identifier) {
         this(Key.key(identifier));
     }
-
     @SuppressWarnings("PatternValidation")
     public RegistryCustom(Key identifier) {
         this.identifier = identifier;
@@ -95,6 +81,20 @@ public class RegistryCustom {
             }
         }
         this.entries = entries;
+    }
+
+    private static RegistryCustom register(String identifier) {
+        RegistryCustom registryCustom = new RegistryCustom(identifier);
+        REGISTRIES.put(registryCustom.getIdentifier(), registryCustom);
+        return registryCustom;
+    }
+
+    public static RegistryCustom getRegistry(Key identifier) {
+        return REGISTRIES.get(identifier);
+    }
+
+    public static Collection<RegistryCustom> getRegistries() {
+        return REGISTRIES.values();
     }
 
     public Key getIdentifier() {

@@ -19,33 +19,33 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.registry.PacketRegistry;
+
 public class ClientboundClearTitlesPacket extends PacketOut {
-	
-	private final boolean reset;
 
-	public ClientboundClearTitlesPacket(boolean reset) {
-		this.reset = reset;
-	}
+    private final boolean reset;
 
-	public boolean isReset() {
-		return reset;
-	}
+    public ClientboundClearTitlesPacket(boolean reset) {
+        this.reset = reset;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		output.writeBoolean(reset);
-		
-		return buffer.toByteArray();
-	}
+    public boolean isReset() {
+        return reset;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        output.writeBoolean(reset);
+
+        return buffer.toByteArray();
+    }
 
 }

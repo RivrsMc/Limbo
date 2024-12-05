@@ -24,14 +24,14 @@ import com.loohp.limbo.player.Player;
 
 public class PlayerResourcePackStatusEvent extends PlayerEvent {
 
-	private Action status;
-	
-	public PlayerResourcePackStatusEvent(Player player, Action status) {
-		super(player);
-		this.status = status;
-	}
-	
-	public Action getStatus() {
-		return status;
-	}
+    private final Action status;
+
+    public PlayerResourcePackStatusEvent(Player player, Action status) {
+        super(player);
+        this.status = status;
+    }
+
+    public Action getStatus() {
+        return status;
+    }
 }

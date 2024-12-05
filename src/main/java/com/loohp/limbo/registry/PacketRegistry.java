@@ -19,85 +19,6 @@
 
 package com.loohp.limbo.registry;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.loohp.limbo.Limbo;
-import com.loohp.limbo.network.ClientConnection;
-import com.loohp.limbo.network.protocol.packets.ClientboundChunkBatchFinishedPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundChunkBatchStartPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundClearTitlesPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundFinishConfigurationPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundLevelChunkWithLightPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundRegistryDataPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundResourcePackPushPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundSetActionBarTextPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundSetSubtitleTextPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundSetTitleTextPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundSetTitlesAnimationPacket;
-import com.loohp.limbo.network.protocol.packets.ClientboundSystemChatPacket;
-import com.loohp.limbo.network.protocol.packets.Packet;
-import com.loohp.limbo.network.protocol.packets.PacketHandshakingIn;
-import com.loohp.limbo.network.protocol.packets.PacketLoginInLoginStart;
-import com.loohp.limbo.network.protocol.packets.PacketLoginInPluginMessaging;
-import com.loohp.limbo.network.protocol.packets.PacketLoginOutDisconnect;
-import com.loohp.limbo.network.protocol.packets.PacketLoginOutLoginSuccess;
-import com.loohp.limbo.network.protocol.packets.PacketLoginOutPluginMessaging;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInBlockDig;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInBlockPlace;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInChat;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInCloseWindow;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInHeldItemChange;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInItemName;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInKeepAlive;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInPickItem;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInPluginMessaging;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInPosition;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInPositionAndLook;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInRotation;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInSetCreativeSlot;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInTabComplete;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInUseItem;
-import com.loohp.limbo.network.protocol.packets.PacketPlayInWindowClick;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutBoss;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutCloseWindow;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutDeclareCommands;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutDisconnect;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutEntityDestroy;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutEntityMetadata;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutGameStateChange;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutHeldItemChange;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutKeepAlive;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutLogin;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutNamedSoundEffect;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutOpenWindow;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutPlayerAbilities;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutPlayerInfo;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutPlayerListHeaderFooter;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutPluginMessaging;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutPositionAndLook;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutRespawn;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutSpawnEntity;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutSpawnPosition;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutStopSound;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutTabComplete;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutUnloadChunk;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutUpdateViewPosition;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowData;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowItems;
-import com.loohp.limbo.network.protocol.packets.PacketStatusInPing;
-import com.loohp.limbo.network.protocol.packets.PacketStatusInRequest;
-import com.loohp.limbo.network.protocol.packets.PacketStatusOutPong;
-import com.loohp.limbo.network.protocol.packets.PacketStatusOutResponse;
-import com.loohp.limbo.network.protocol.packets.ServerboundChatCommandPacket;
-import com.loohp.limbo.network.protocol.packets.ServerboundFinishConfigurationPacket;
-import com.loohp.limbo.network.protocol.packets.ServerboundLoginAcknowledgedPacket;
-import com.loohp.limbo.network.protocol.packets.ServerboundResourcePackPacket;
-import net.kyori.adventure.key.Key;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -105,6 +26,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.loohp.limbo.Limbo;
+import com.loohp.limbo.network.ClientConnection;
+import com.loohp.limbo.network.protocol.packets.*;
+
+import net.kyori.adventure.key.Key;
 
 @SuppressWarnings("PatternValidation")
 public class PacketRegistry {
@@ -249,6 +182,14 @@ public class PacketRegistry {
         LOGIN("login", ClientConnection.ClientState.LOGIN),
         PLAY("play", ClientConnection.ClientState.PLAY);
 
+        private final String name;
+        private final ClientConnection.ClientState clientState;
+
+        NetworkPhase(String name, ClientConnection.ClientState clientState) {
+            this.name = name;
+            this.clientState = clientState;
+        }
+
         public static NetworkPhase fromName(String name) {
             for (NetworkPhase phase : values()) {
                 if (phase.getName().equals(name)) {
@@ -267,14 +208,6 @@ public class PacketRegistry {
             return null;
         }
 
-        private final String name;
-        private final ClientConnection.ClientState clientState;
-
-        NetworkPhase(String name, ClientConnection.ClientState clientState) {
-            this.name = name;
-            this.clientState = clientState;
-        }
-
         public String getName() {
             return name;
         }
@@ -289,6 +222,12 @@ public class PacketRegistry {
         SERVERBOUND("serverbound"),
         CLIENTBOUND("clientbound");
 
+        private final String name;
+
+        PacketBound(String name) {
+            this.name = name;
+        }
+
         public static PacketBound fromName(String name) {
             for (PacketBound bound : values()) {
                 if (bound.getName().equals(name)) {
@@ -296,12 +235,6 @@ public class PacketRegistry {
                 }
             }
             return null;
-        }
-
-        private final String name;
-
-        PacketBound(String name) {
-            this.name = name;
         }
 
         public String getName() {

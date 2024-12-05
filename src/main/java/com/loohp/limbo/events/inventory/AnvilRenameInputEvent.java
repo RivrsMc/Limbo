@@ -22,7 +22,7 @@ package com.loohp.limbo.events.inventory;
 import com.loohp.limbo.events.Cancellable;
 import com.loohp.limbo.inventory.InventoryView;
 
-public class AnvilRenameInputEvent extends InventoryEvent implements Cancellable  {
+public class AnvilRenameInputEvent extends InventoryEvent implements Cancellable {
 
     private boolean cancelled;
     private String input;
@@ -33,21 +33,21 @@ public class AnvilRenameInputEvent extends InventoryEvent implements Cancellable
         this.cancelled = false;
     }
 
-    public void setInput(String input) {
-        this.input = input;
-    }
-
     public String getInput() {
         return input;
     }
 
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setInput(String input) {
+        this.input = input;
     }
 
     @Override
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

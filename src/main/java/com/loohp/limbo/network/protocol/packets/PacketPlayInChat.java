@@ -19,52 +19,52 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-import com.loohp.limbo.utils.LastSeenMessages;
-import com.loohp.limbo.utils.MessageSignature;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 
+import com.loohp.limbo.utils.DataTypeIO;
+import com.loohp.limbo.utils.LastSeenMessages;
+import com.loohp.limbo.utils.MessageSignature;
+
 public class PacketPlayInChat extends PacketIn {
-	
-	private final String message;
-	private final Instant time;
-	private final long salt;
-	private final MessageSignature signature;
-	private final LastSeenMessages.b lastSeenMessages;
 
-	public PacketPlayInChat(String message, Instant time, long salt, MessageSignature signature, LastSeenMessages.b lastSeenMessages) {
-		this.message = message;
-		this.time = time;
-		this.salt = salt;
-		this.signature = signature;
-		this.lastSeenMessages = lastSeenMessages;
-	}
+    private final String message;
+    private final Instant time;
+    private final long salt;
+    private final MessageSignature signature;
+    private final LastSeenMessages.b lastSeenMessages;
 
-	public PacketPlayInChat(DataInputStream in) throws IOException {
-		this(DataTypeIO.readString(in, StandardCharsets.UTF_8), Instant.ofEpochMilli(in.readLong()), in.readLong(), in.readBoolean() ? MessageSignature.read(in) : null, new LastSeenMessages.b(in));
-	}
+    public PacketPlayInChat(String message, Instant time, long salt, MessageSignature signature, LastSeenMessages.b lastSeenMessages) {
+        this.message = message;
+        this.time = time;
+        this.salt = salt;
+        this.signature = signature;
+        this.lastSeenMessages = lastSeenMessages;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public PacketPlayInChat(DataInputStream in) throws IOException {
+        this(DataTypeIO.readString(in, StandardCharsets.UTF_8), Instant.ofEpochMilli(in.readLong()), in.readLong(), in.readBoolean() ? MessageSignature.read(in) : null, new LastSeenMessages.b(in));
+    }
 
-	public Instant getTime() {
-		return time;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public MessageSignature getSignature() {
-		return signature;
-	}
+    public Instant getTime() {
+        return time;
+    }
 
-	public long getSalt() {
-		return salt;
-	}
+    public MessageSignature getSignature() {
+        return signature;
+    }
 
-	public LastSeenMessages.b getLastSeenMessages() {
-		return lastSeenMessages;
-	}
+    public long getSalt() {
+        return salt;
+    }
+
+    public LastSeenMessages.b getLastSeenMessages() {
+        return lastSeenMessages;
+    }
 }

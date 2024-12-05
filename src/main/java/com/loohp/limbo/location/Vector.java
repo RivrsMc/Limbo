@@ -19,12 +19,12 @@
 
 package com.loohp.limbo.location;
 
+import java.util.Random;
+
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Doubles;
 import com.loohp.limbo.utils.NumberConversions;
 import com.loohp.limbo.world.World;
-
-import java.util.Random;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,
@@ -34,13 +34,11 @@ import java.util.Random;
  */
 public class Vector implements Cloneable {
 
-    private static Random random = new Random();
-
     /**
      * Threshold for fuzzy equals().
      */
     private static final double epsilon = 0.000001;
-
+    private static final Random random = new Random();
     protected double x;
     protected double y;
     protected double z;
@@ -91,6 +89,47 @@ public class Vector implements Cloneable {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    /**
+     * Get the threshold used for equals().
+     *
+     * @return The epsilon.
+     */
+    public static double getEpsilon() {
+        return epsilon;
+    }
+
+    /**
+     * Gets the minimum components of two vectors.
+     *
+     * @param v1 The first vector.
+     * @param v2 The second vector.
+     * @return minimum
+     */
+    public static Vector getMinimum(Vector v1, Vector v2) {
+        return new Vector(Math.min(v1.x, v2.x), Math.min(v1.y, v2.y), Math.min(v1.z, v2.z));
+    }
+
+    /**
+     * Gets the maximum components of two vectors.
+     *
+     * @param v1 The first vector.
+     * @param v2 The second vector.
+     * @return maximum
+     */
+    public static Vector getMaximum(Vector v1, Vector v2) {
+        return new Vector(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y), Math.max(v1.z, v2.z));
+    }
+
+    /**
+     * Gets a random vector with components having a random value between 0
+     * and 1.
+     *
+     * @return A random vector.
+     */
+    public static Vector getRandom() {
+        return new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble());
     }
 
     /**
@@ -419,7 +458,7 @@ public class Vector implements Cloneable {
      * Matrix</a>.
      *
      * @param angle the angle to rotate the vector about. This angle is passed
-     * in radians
+     *              in radians
      * @return the same vector
      */
     public Vector rotateAroundX(double angle) {
@@ -440,7 +479,7 @@ public class Vector implements Cloneable {
      * Matrix</a>.
      *
      * @param angle the angle to rotate the vector about. This angle is passed
-     * in radians
+     *              in radians
      * @return the same vector
      */
     public Vector rotateAroundY(double angle) {
@@ -461,7 +500,7 @@ public class Vector implements Cloneable {
      * Matrix</a>.
      *
      * @param angle the angle to rotate the vector about. This angle is passed
-     * in radians
+     *              in radians
      * @return the same vector
      */
     public Vector rotateAroundZ(double angle) {
@@ -485,14 +524,14 @@ public class Vector implements Cloneable {
      * with the scaling of a non-unit axis vector, you can use
      * {@link Vector#rotateAroundNonUnitAxis(Vector, double)}.
      *
-     * @param axis the axis to rotate the vector around. If the passed vector is
-     * not of length 1, it gets copied and normalized before using it for the
-     * rotation. Please use {@link Vector#normalize()} on the instance before
-     * passing it to this method
+     * @param axis  the axis to rotate the vector around. If the passed vector is
+     *              not of length 1, it gets copied and normalized before using it for the
+     *              rotation. Please use {@link Vector#normalize()} on the instance before
+     *              passing it to this method
      * @param angle the angle to rotate the vector around the axis
      * @return the same vector
      * @throws IllegalArgumentException if the provided axis vector instance is
-     * null
+     *                                  null
      */
     public Vector rotateAroundAxis(Vector axis, double angle) throws IllegalArgumentException {
         Preconditions.checkArgument(axis != null, "The provided axis vector was null");
@@ -514,11 +553,11 @@ public class Vector implements Cloneable {
      * about the scaling of the vector, use
      * {@link Vector#rotateAroundAxis(Vector, double)}
      *
-     * @param axis the axis to rotate the vector around.
+     * @param axis  the axis to rotate the vector around.
      * @param angle the angle to rotate the vector around the axis
      * @return the same vector
      * @throws IllegalArgumentException if the provided axis vector instance is
-     * null
+     *                                  null
      */
     public Vector rotateAroundNonUnitAxis(Vector axis, double angle) throws IllegalArgumentException {
         Preconditions.checkArgument(axis != null, "The provided axis vector was null");
@@ -531,14 +570,14 @@ public class Vector implements Cloneable {
         double dotProduct = this.dot(axis);
 
         double xPrime = x2 * dotProduct * (1d - cosTheta)
-                + x * cosTheta
-                + (-z2 * y + y2 * z) * sinTheta;
+                        + x * cosTheta
+                        + (-z2 * y + y2 * z) * sinTheta;
         double yPrime = y2 * dotProduct * (1d - cosTheta)
-                + y * cosTheta
-                + (z2 * x - x2 * z) * sinTheta;
+                        + y * cosTheta
+                        + (z2 * x - x2 * z) * sinTheta;
         double zPrime = z2 * dotProduct * (1d - cosTheta)
-                + z * cosTheta
-                + (-y2 * x + x2 * y) * sinTheta;
+                        + z * cosTheta
+                        + (-y2 * x + x2 * y) * sinTheta;
 
         return setX(xPrime).setY(yPrime).setZ(zPrime);
     }
@@ -550,54 +589,6 @@ public class Vector implements Cloneable {
      */
     public double getX() {
         return x;
-    }
-
-    /**
-     * Gets the floored value of the X component, indicating the block that
-     * this vector is contained with.
-     *
-     * @return block X
-     */
-    public int getBlockX() {
-        return NumberConversions.floor(x);
-    }
-
-    /**
-     * Gets the Y component.
-     *
-     * @return The Y component.
-     */
-    public double getY() {
-        return y;
-    }
-
-    /**
-     * Gets the floored value of the Y component, indicating the block that
-     * this vector is contained with.
-     *
-     * @return block y
-     */
-    public int getBlockY() {
-        return NumberConversions.floor(y);
-    }
-
-    /**
-     * Gets the Z component.
-     *
-     * @return The Z component.
-     */
-    public double getZ() {
-        return z;
-    }
-
-    /**
-     * Gets the floored value of the Z component, indicating the block that
-     * this vector is contained with.
-     *
-     * @return block z
-     */
-    public int getBlockZ() {
-        return NumberConversions.floor(z);
     }
 
     /**
@@ -634,6 +625,25 @@ public class Vector implements Cloneable {
     }
 
     /**
+     * Gets the floored value of the X component, indicating the block that
+     * this vector is contained with.
+     *
+     * @return block X
+     */
+    public int getBlockX() {
+        return NumberConversions.floor(x);
+    }
+
+    /**
+     * Gets the Y component.
+     *
+     * @return The Y component.
+     */
+    public double getY() {
+        return y;
+    }
+
+    /**
      * Set the Y component.
      *
      * @param y The new Y component.
@@ -664,6 +674,25 @@ public class Vector implements Cloneable {
     public Vector setY(float y) {
         this.y = y;
         return this;
+    }
+
+    /**
+     * Gets the floored value of the Y component, indicating the block that
+     * this vector is contained with.
+     *
+     * @return block y
+     */
+    public int getBlockY() {
+        return NumberConversions.floor(y);
+    }
+
+    /**
+     * Gets the Z component.
+     *
+     * @return The Z component.
+     */
+    public double getZ() {
+        return z;
     }
 
     /**
@@ -700,6 +729,16 @@ public class Vector implements Cloneable {
     }
 
     /**
+     * Gets the floored value of the Z component, indicating the block that
+     * this vector is contained with.
+     *
+     * @return block z
+     */
+    public int getBlockZ() {
+        return NumberConversions.floor(z);
+    }
+
+    /**
      * Checks to see if two objects are equal.
      * <p>
      * Only two Vectors can ever return true. This method uses a fuzzy match
@@ -731,6 +770,15 @@ public class Vector implements Cloneable {
         hash = 79 * hash + (int) (Double.doubleToLongBits(this.z) ^ (Double.doubleToLongBits(this.z) >>> 32));
         return hash;
     }
+
+    /**
+     * Get the block vector of this vector.
+     *
+     * @return A block vector.
+    public BlockVector toBlockVector() {
+    return new BlockVector(x, y, z);
+    }
+     */
 
     /**
      * Get a new vector.
@@ -768,22 +816,13 @@ public class Vector implements Cloneable {
      * Gets a Location version of this vector.
      *
      * @param world The world to link the location to.
-     * @param yaw The desired yaw.
+     * @param yaw   The desired yaw.
      * @param pitch The desired pitch.
      * @return the location
      */
     public Location toLocation(World world, float yaw, float pitch) {
         return new Location(world, x, y, z, yaw, pitch);
     }
-
-    /**
-     * Get the block vector of this vector.
-     *
-     * @return A block vector.
-    public BlockVector toBlockVector() {
-        return new BlockVector(x, y, z);
-    }
-    */
 
     /**
      * Check if each component of this Vector is finite.
@@ -794,47 +833,6 @@ public class Vector implements Cloneable {
         NumberConversions.checkFinite(x, "x not finite");
         NumberConversions.checkFinite(y, "y not finite");
         NumberConversions.checkFinite(z, "z not finite");
-    }
-
-    /**
-     * Get the threshold used for equals().
-     *
-     * @return The epsilon.
-     */
-    public static double getEpsilon() {
-        return epsilon;
-    }
-
-    /**
-     * Gets the minimum components of two vectors.
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * @return minimum
-     */
-    public static Vector getMinimum(Vector v1, Vector v2) {
-        return new Vector(Math.min(v1.x, v2.x), Math.min(v1.y, v2.y), Math.min(v1.z, v2.z));
-    }
-
-    /**
-     * Gets the maximum components of two vectors.
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * @return maximum
-     */
-    public static Vector getMaximum(Vector v1, Vector v2) {
-        return new Vector(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y), Math.max(v1.z, v2.z));
-    }
-
-    /**
-     * Gets a random vector with components having a random value between 0
-     * and 1.
-     *
-     * @return A random vector.
-     */
-    public static Vector getRandom() {
-        return new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble());
     }
 
     /*

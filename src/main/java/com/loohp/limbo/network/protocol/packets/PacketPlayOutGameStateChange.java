@@ -19,13 +19,39 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.registry.PacketRegistry;
+
 public class PacketPlayOutGameStateChange extends PacketOut {
+
+    private final GameStateChangeEvent event;
+    private final float value;
+    public PacketPlayOutGameStateChange(GameStateChangeEvent event, float value) {
+        this.event = event;
+        this.value = value;
+    }
+
+    public GameStateChangeEvent getEvent() {
+        return event;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        output.writeByte(event.getId());
+        output.writeFloat(value);
+
+        return buffer.toByteArray();
+    }
 
     public enum GameStateChangeEvent {
         NO_RESPAWN_BLOCK_AVAILABLE(0),
@@ -52,33 +78,6 @@ public class PacketPlayOutGameStateChange extends PacketOut {
         public int getId() {
             return id;
         }
-    }
-
-    private final GameStateChangeEvent event;
-    private final float value;
-
-    public PacketPlayOutGameStateChange(GameStateChangeEvent event, float value) {
-        this.event = event;
-        this.value = value;
-    }
-
-    public GameStateChangeEvent getEvent() {
-        return event;
-    }
-
-    public float getValue() {
-        return value;
-    }
-
-    public byte[] serializePacket() throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        DataOutputStream output = new DataOutputStream(buffer);
-        output.writeByte(PacketRegistry.getPacketId(getClass()));
-        output.writeByte(event.getId());
-        output.writeFloat(value);
-
-        return buffer.toByteArray();
     }
 
 }

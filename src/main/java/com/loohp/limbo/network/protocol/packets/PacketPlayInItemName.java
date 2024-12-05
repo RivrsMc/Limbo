@@ -19,25 +19,25 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInItemName extends PacketIn {
 
-	private final String name;
+    private final String name;
 
-	public PacketPlayInItemName(String name) {
-		this.name = name;
-	}
+    public PacketPlayInItemName(String name) {
+        this.name = name;
+    }
 
-	public PacketPlayInItemName(DataInputStream in) throws IOException {
-		this(DataTypeIO.readString(in, StandardCharsets.UTF_8));
-	}
+    public PacketPlayInItemName(DataInputStream in) throws IOException {
+        this(DataTypeIO.readString(in, StandardCharsets.UTF_8));
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 }

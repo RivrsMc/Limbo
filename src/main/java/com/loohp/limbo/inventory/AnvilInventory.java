@@ -32,12 +32,12 @@ public class AnvilInventory extends AbstractInventory implements TitledInventory
         this.title = title == null ? DEFAULT_TITLE : title;
     }
 
-    public void setTitle(Component title) {
-        this.title = title;
-    }
-
     @Override
     public Component getTitle() {
         return title;
+    }
+
+    public void setTitle(Component title) {
+        this.title = title;
     }
 }

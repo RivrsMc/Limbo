@@ -19,29 +19,29 @@
 
 package com.loohp.limbo.inventory;
 
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
-import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowData;
-import com.loohp.limbo.player.Player;
-import com.loohp.limbo.player.PlayerInventory;
-import net.kyori.adventure.text.Component;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.loohp.limbo.network.protocol.packets.PacketPlayOutSetSlot;
+import com.loohp.limbo.network.protocol.packets.PacketPlayOutWindowData;
+import com.loohp.limbo.player.Player;
+import com.loohp.limbo.player.PlayerInventory;
+
+import net.kyori.adventure.text.Component;
 
 public class InventoryView {
 
     public static final int OUTSIDE = -999;
 
     private final Player player;
-    private Component title;
-    private Inventory topInventory;
     private final Inventory bottomInventory;
     private final Map<Property, Integer> properties;
-    private ItemStack carriedItem;
-
     private final Unsafe unsafe;
+    private Component title;
+    private Inventory topInventory;
+    private ItemStack carriedItem;
 
     public InventoryView(Player player, Component title, Inventory topInventory, Inventory bottomInventory) {
         this.player = player;
@@ -88,10 +88,10 @@ public class InventoryView {
 
     /**
      * Gets the inventory corresponding to the given raw slot ID.
-     *
+     * <p>
      * If the slot ID is {@link #OUTSIDE} null will be returned, otherwise
      * behaviour for illegal and negative slot IDs is undefined.
-     *
+     * <p>
      * May be used with {@link #convertSlot(int)} to directly index an
      * underlying inventory.
      *
@@ -352,34 +352,6 @@ public class InventoryView {
         return unsafe;
     }
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
-    public static class Unsafe {
-
-        private final InventoryView inventoryView;
-
-        @Deprecated
-        public Unsafe(InventoryView inventoryView) {
-            this.inventoryView = inventoryView;
-        }
-
-        @Deprecated
-        public void a(Inventory topInventory, Component title) {
-            inventoryView.topInventory = topInventory;
-            inventoryView.title = title;
-            inventoryView.properties.clear();
-        }
-
-        @Deprecated
-        public int a() {
-            if (inventoryView.topInventory != null) {
-                return inventoryView.topInventory.getUnsafe().c().getOrDefault(inventoryView.player, -1);
-            }
-            return inventoryView.bottomInventory.getUnsafe().c().getOrDefault(inventoryView.player, -1);
-        }
-
-    }
-
     /**
      * Represents various extra properties of certain inventory windows.
      */
@@ -497,6 +469,34 @@ public class InventoryView {
         public int getId() {
             return id;
         }
+    }
+
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated
+    public static class Unsafe {
+
+        private final InventoryView inventoryView;
+
+        @Deprecated
+        public Unsafe(InventoryView inventoryView) {
+            this.inventoryView = inventoryView;
+        }
+
+        @Deprecated
+        public void a(Inventory topInventory, Component title) {
+            inventoryView.topInventory = topInventory;
+            inventoryView.title = title;
+            inventoryView.properties.clear();
+        }
+
+        @Deprecated
+        public int a() {
+            if (inventoryView.topInventory != null) {
+                return inventoryView.topInventory.getUnsafe().c().getOrDefault(inventoryView.player, -1);
+            }
+            return inventoryView.bottomInventory.getUnsafe().c().getOrDefault(inventoryView.player, -1);
+        }
+
     }
 
 }

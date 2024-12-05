@@ -19,56 +19,57 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-import net.kyori.adventure.key.Key;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
+import net.kyori.adventure.key.Key;
+
 public class PacketLoginOutPluginMessaging extends PacketOut {
 
-	private final int messageId;
-	private final Key channel;
-	private final byte[] data;
+    private final int messageId;
+    private final Key channel;
+    private final byte[] data;
 
-	public PacketLoginOutPluginMessaging(int messageId, Key channel) {
-		this(messageId, channel, null);
-	}
+    public PacketLoginOutPluginMessaging(int messageId, Key channel) {
+        this(messageId, channel, null);
+    }
 
-	public PacketLoginOutPluginMessaging(int messageId, Key channel, byte[] data) {
-		this.messageId = messageId;
-		this.channel = channel;
-		this.data = data;
-	}
-	
-	public int getMessageId() {
-		return messageId;
-	}
+    public PacketLoginOutPluginMessaging(int messageId, Key channel, byte[] data) {
+        this.messageId = messageId;
+        this.channel = channel;
+        this.data = data;
+    }
 
-	public Key getChannel() {
-		return channel;
-	}
+    public int getMessageId() {
+        return messageId;
+    }
 
-	public byte[] getData() {
-		return data;
-	}
+    public Key getChannel() {
+        return channel;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeVarInt(output, messageId);
-		DataTypeIO.writeString(output, channel.toString(), StandardCharsets.UTF_8);
-		if (data != null) {
-			output.write(data);
-		}
-		
-		return buffer.toByteArray();
-	}
+    public byte[] getData() {
+        return data;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeVarInt(output, messageId);
+        DataTypeIO.writeString(output, channel.toString(), StandardCharsets.UTF_8);
+        if (data != null) {
+            output.write(data);
+        }
+
+        return buffer.toByteArray();
+    }
 
 }

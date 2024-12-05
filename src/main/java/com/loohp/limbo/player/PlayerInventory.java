@@ -19,6 +19,12 @@
 
 package com.loohp.limbo.player;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.ToIntFunction;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -27,12 +33,6 @@ import com.loohp.limbo.inventory.AbstractInventory;
 import com.loohp.limbo.inventory.EquipmentSlot;
 import com.loohp.limbo.inventory.InventoryType;
 import com.loohp.limbo.inventory.ItemStack;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.ToIntFunction;
 
 public class PlayerInventory extends AbstractInventory implements EntityEquipment {
 

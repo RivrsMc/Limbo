@@ -68,13 +68,13 @@ public enum InventoryAction {
     /**
      * The clicked item is moved to the hotbar, and the item currently there
      * is re-added to the player's inventory.
-     *
+     * <p>
      * The hotbar includes the player's off hand.
      */
     HOTBAR_MOVE_AND_READD,
     /**
      * The clicked slot and the picked hotbar slot are swapped.
-     *
+     * <p>
      * The hotbar includes the player's off hand.
      */
     HOTBAR_SWAP,
@@ -91,5 +91,4 @@ public enum InventoryAction {
      * An unrecognized ClickType.
      */
     UNKNOWN,
-    ;
 }

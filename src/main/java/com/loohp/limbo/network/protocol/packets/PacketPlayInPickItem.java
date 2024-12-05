@@ -19,24 +19,24 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayInPickItem extends PacketIn {
 
-	private final int slot;
+    private final int slot;
 
-	public PacketPlayInPickItem(int slot) {
-		this.slot = slot;
-	}
+    public PacketPlayInPickItem(int slot) {
+        this.slot = slot;
+    }
 
-	public PacketPlayInPickItem(DataInputStream in) throws IOException {
-		this(DataTypeIO.readVarInt(in));
-	}
+    public PacketPlayInPickItem(DataInputStream in) throws IOException {
+        this(DataTypeIO.readVarInt(in));
+    }
 
-	public int getSlot() {
-		return slot;
-	}
+    public int getSlot() {
+        return slot;
+    }
 }

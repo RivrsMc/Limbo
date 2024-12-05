@@ -19,32 +19,32 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketLoginInLoginStart extends PacketIn {
-	
-	private final String username;
-	private final UUID uuid;
-	
-	public PacketLoginInLoginStart(String username, UUID uuid) {
-		this.username = username;
-		this.uuid = uuid;
-	}
-	
-	public PacketLoginInLoginStart(DataInputStream in) throws IOException {
-		this(DataTypeIO.readString(in, StandardCharsets.UTF_8), DataTypeIO.readUUID(in));
-	}
 
-	public String getUsername() {
-		return username;
-	}
+    private final String username;
+    private final UUID uuid;
 
-	public UUID getUniqueId() {
-		return uuid;
-	}
+    public PacketLoginInLoginStart(String username, UUID uuid) {
+        this.username = username;
+        this.uuid = uuid;
+    }
+
+    public PacketLoginInLoginStart(DataInputStream in) throws IOException {
+        this(DataTypeIO.readString(in, StandardCharsets.UTF_8), DataTypeIO.readUUID(in));
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public UUID getUniqueId() {
+        return uuid;
+    }
 }

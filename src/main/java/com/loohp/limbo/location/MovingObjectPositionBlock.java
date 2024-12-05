@@ -28,10 +28,6 @@ public class MovingObjectPositionBlock extends MovingObjectPosition {
     private final boolean miss;
     private final boolean inside;
 
-    public static MovingObjectPositionBlock miss(Vector vec3d, BlockFace direction, BlockPosition blockposition) {
-        return new MovingObjectPositionBlock(true, vec3d, direction, blockposition, false);
-    }
-
     public MovingObjectPositionBlock(Vector vec3d, BlockFace direction, BlockPosition blockposition, boolean flag) {
         this(false, vec3d, direction, blockposition, flag);
     }
@@ -42,6 +38,10 @@ public class MovingObjectPositionBlock extends MovingObjectPosition {
         this.direction = direction;
         this.blockPos = blockposition;
         this.inside = flag1;
+    }
+
+    public static MovingObjectPositionBlock miss(Vector vec3d, BlockFace direction, BlockPosition blockposition) {
+        return new MovingObjectPositionBlock(true, vec3d, direction, blockposition, false);
     }
 
     public MovingObjectPositionBlock withDirection(BlockFace direction) {

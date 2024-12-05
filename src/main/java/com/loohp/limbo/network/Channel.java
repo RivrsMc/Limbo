@@ -19,12 +19,6 @@
 
 package com.loohp.limbo.network;
 
-import com.loohp.limbo.network.protocol.packets.PacketIn;
-import com.loohp.limbo.network.protocol.packets.PacketOut;
-import com.loohp.limbo.utils.DataTypeIO;
-import com.loohp.limbo.utils.Pair;
-import net.kyori.adventure.key.Key;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,13 +26,20 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.loohp.limbo.network.protocol.packets.PacketIn;
+import com.loohp.limbo.network.protocol.packets.PacketOut;
+import com.loohp.limbo.utils.DataTypeIO;
+import com.loohp.limbo.utils.Pair;
+
+import net.kyori.adventure.key.Key;
+
 public class Channel implements AutoCloseable {
 
+    protected final DataInputStream input;
+    protected final DataOutputStream output;
     private final ClientConnection client;
     private final List<Pair<Key, ChannelPacketHandler>> handlers;
     private final AtomicBoolean valid;
-    protected final DataInputStream input;
-    protected final DataOutputStream output;
 
     public Channel(ClientConnection client, DataInputStream input, DataOutputStream output) {
         this.client = client;

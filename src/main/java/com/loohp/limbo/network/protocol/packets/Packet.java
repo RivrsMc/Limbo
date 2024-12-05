@@ -24,8 +24,8 @@ import com.loohp.limbo.registry.PacketRegistry;
 
 public abstract class Packet {
 
-	public ClientConnection.ClientState getPacketState() {
-		return PacketRegistry.getPacketInfo(getClass()).getNetworkPhase().getClientState();
-	}
+    public ClientConnection.ClientState getPacketState() {
+        return PacketRegistry.getPacketInfo(getClass()).getNetworkPhase().getClientState();
+    }
 
 }

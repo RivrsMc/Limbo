@@ -19,33 +19,33 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketPlayOutDeclareCommands extends PacketOut {
-	
-	private final byte[] data;
-	
-	public PacketPlayOutDeclareCommands(byte[] data) {
-		this.data = data;
-	}
-	
-	public byte[] getData() {
-		return data;
-	}
+import com.loohp.limbo.registry.PacketRegistry;
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		output.write(data);
-		
-		return buffer.toByteArray();
-	}
+public class PacketPlayOutDeclareCommands extends PacketOut {
+
+    private final byte[] data;
+
+    public PacketPlayOutDeclareCommands(byte[] data) {
+        this.data = data;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        output.write(data);
+
+        return buffer.toByteArray();
+    }
 
 }

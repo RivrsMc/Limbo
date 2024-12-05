@@ -19,42 +19,42 @@
 
 package com.loohp.limbo.network.protocol.packets;
 
-import com.loohp.limbo.registry.PacketRegistry;
-import com.loohp.limbo.utils.DataTypeIO;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import com.loohp.limbo.registry.PacketRegistry;
+import com.loohp.limbo.utils.DataTypeIO;
+
 public class PacketPlayOutPluginMessaging extends PacketOut {
 
-	private final String channel;
-	private final byte[] data;
+    private final String channel;
+    private final byte[] data;
 
-	public PacketPlayOutPluginMessaging(String channel, byte[] data) {
-		this.channel = channel;
-		this.data = data;
-	}
+    public PacketPlayOutPluginMessaging(String channel, byte[] data) {
+        this.channel = channel;
+        this.data = data;
+    }
 
-	public String getChannel() {
-		return channel;
-	}
+    public String getChannel() {
+        return channel;
+    }
 
-	public byte[] getData() {
-		return data;
-	}
+    public byte[] getData() {
+        return data;
+    }
 
-	@Override
-	public byte[] serializePacket() throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		
-		DataOutputStream output = new DataOutputStream(buffer);
-		output.writeByte(PacketRegistry.getPacketId(getClass()));
-		DataTypeIO.writeString(output, channel, StandardCharsets.UTF_8);
-		output.write(data);
-		
-		return buffer.toByteArray();
-	}
+    @Override
+    public byte[] serializePacket() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        DataOutputStream output = new DataOutputStream(buffer);
+        output.writeByte(PacketRegistry.getPacketId(getClass()));
+        DataTypeIO.writeString(output, channel, StandardCharsets.UTF_8);
+        output.write(data);
+
+        return buffer.toByteArray();
+    }
 
 }
