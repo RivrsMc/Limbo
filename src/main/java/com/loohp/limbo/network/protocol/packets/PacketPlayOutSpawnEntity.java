@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 import com.loohp.limbo.entity.EntityType;
+import com.loohp.limbo.location.Location;
+import com.loohp.limbo.location.Vector;
 import com.loohp.limbo.registry.PacketRegistry;
 import com.loohp.limbo.utils.DataTypeIO;
 
@@ -43,6 +45,16 @@ public class PacketPlayOutSpawnEntity extends PacketOut {
     private final short velocityX;
     private final short velocityY;
     private final short velocityZ;
+
+
+    public PacketPlayOutSpawnEntity(int entityId, UUID uniqueId, EntityType type, Location location) {
+        this(entityId, uniqueId, type, location, 0.0F, 0, Vector.ZERO);
+    }
+
+
+    public PacketPlayOutSpawnEntity(int entityId, UUID uniqueId, EntityType type, Location location, float headYaw, int data, Vector velocity) {
+        this(entityId, uniqueId, type, location.getX(), location.getY(), location.getZ(), location.getPitch(), location.getYaw(), headYaw, data, (short) velocity.getX(), (short) velocity.getY(), (short) velocity.getZ());
+    }
 
     public PacketPlayOutSpawnEntity(int entityId, UUID uuid, EntityType type, double x, double y, double z, float pitch, float yaw, float headYaw, int data, short velocityX, short velocityY, short velocityZ) {
         this.entityId = entityId;
