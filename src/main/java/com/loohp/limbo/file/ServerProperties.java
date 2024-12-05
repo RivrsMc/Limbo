@@ -19,14 +19,11 @@
 
 package com.loohp.limbo.file;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.Map.Entry;
-
-import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -60,7 +57,6 @@ public class ServerProperties {
     private final boolean logPlayerIPAddresses;
     private final boolean allowFlight;
     private final boolean allowChat;
-    private final Component motd;
     private final String versionString;
     private final int protocol;
     private boolean bungeecord;
@@ -80,8 +76,6 @@ public class ServerProperties {
 
     private Component tabHeader;
     private Component tabFooter;
-
-    private Optional<BufferedImage> favicon;
 
     public ServerProperties(File file) throws IOException {
         this.file = file;
@@ -127,8 +121,6 @@ public class ServerProperties {
         logPlayerIPAddresses = Boolean.parseBoolean(prop.getProperty("log-player-ip-addresses"));
         allowFlight = Boolean.parseBoolean(prop.getProperty("allow-flight"));
         allowChat = Boolean.parseBoolean(prop.getProperty("allow-chat"));
-        String motdJson = prop.getProperty("motd");
-        motd = motdJson.equals("") ? Component.empty() : GsonComponentSerializer.gson().deserialize(motdJson);
         versionString = prop.getProperty("version");
         bungeecord = Boolean.parseBoolean(prop.getProperty("bungeecord"));
         velocityModern = Boolean.parseBoolean(prop.getProperty("velocity-modern"));
@@ -166,23 +158,6 @@ public class ServerProperties {
         tabHeader = tabHeaderJson.equals("") ? Component.empty() : GsonComponentSerializer.gson().deserialize(tabHeaderJson);
         String tabFooterJson = prop.getProperty("tab-footer");
         tabFooter = tabFooterJson.equals("") ? Component.empty() : GsonComponentSerializer.gson().deserialize(tabFooterJson);
-
-        File png = new File("server-icon.png");
-        if (png.exists()) {
-            try {
-                BufferedImage image = ImageIO.read(png);
-                if (image.getHeight() == 64 && image.getWidth() == 64) {
-                    favicon = Optional.of(image);
-                } else {
-                    Limbo.getInstance().getConsole().sendMessage("Unable to load server-icon.png! The image is not 64 x 64 in size!");
-                }
-            } catch (Exception e) {
-                Limbo.getInstance().getConsole().sendMessage("Unable to load server-icon.png! Is it a png image?");
-            }
-        } else {
-            Limbo.getInstance().getConsole().sendMessage("No server-icon.png found");
-            favicon = Optional.empty();
-        }
 
         enforceWhitelist = Boolean.parseBoolean(prop.getProperty("enforce-whitelist"));
         reloadWhitelist();
@@ -264,10 +239,6 @@ public class ServerProperties {
         return forwardingSecrets;
     }
 
-    public Optional<BufferedImage> getFavicon() {
-        return favicon;
-    }
-
     public File getFile() {
         return file;
     }
@@ -324,9 +295,6 @@ public class ServerProperties {
         return this.allowChat;
     }
 
-    public Component getMotd() {
-        return motd;
-    }
 
     public String getVersionString() {
         return versionString;

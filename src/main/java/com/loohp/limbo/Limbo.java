@@ -19,7 +19,6 @@
 
 package com.loohp.limbo;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -55,7 +55,6 @@ import com.loohp.limbo.plugins.PluginManager;
 import com.loohp.limbo.scheduler.LimboScheduler;
 import com.loohp.limbo.scheduler.Tick;
 import com.loohp.limbo.utils.CustomStringUtils;
-import com.loohp.limbo.utils.ImageUtils;
 import com.loohp.limbo.utils.NetworkUtils;
 import com.loohp.limbo.world.Environment;
 import com.loohp.limbo.world.Schematic;
@@ -336,7 +335,7 @@ public final class Limbo {
     }
 
     @SuppressWarnings("unchecked")
-    public String buildServerListResponseJson(String version, int protocol, Component motd, int maxPlayers, int playersOnline, BufferedImage favicon) throws IOException {
+    public String buildServerListResponseJson(String version, int protocol, int maxPlayers, int playersOnline) {
         JSONObject json = new JSONObject();
 
         JSONObject versionJson = new JSONObject();
@@ -351,15 +350,6 @@ public final class Limbo {
 
         json.put("description", "%MOTD%");
 
-        if (favicon != null) {
-            if (favicon.getWidth() == 64 && favicon.getHeight() == 64) {
-                String base64 = "data:image/png;base64," + ImageUtils.imgToBase64String(favicon, "png");
-                json.put("favicon", base64);
-            } else {
-                console.sendMessage("Server List Favicon must be 64 x 64 in size!");
-            }
-        }
-
         JSONObject modInfoJson = new JSONObject();
         modInfoJson.put("type", "FML");
         modInfoJson.put("modList", new JSONArray());
@@ -371,12 +361,12 @@ public final class Limbo {
 
         Gson g = new GsonBuilder().create();
 
-        return g.toJson(treeMap).replace("\"%MOTD%\"", GsonComponentSerializer.gson().serialize(motd));
+        return g.toJson(treeMap).replace("\"%MOTD%\"", GsonComponentSerializer.gson().serialize(Component.text("Rivrs-Lobby")));
     }
 
-    public String buildLegacyPingResponse(String version, Component motd, int maxPlayers, int playersOnline) {
+    public String buildLegacyPingResponse(String version, int maxPlayers, int playersOnline) {
         String begin = "�1";
-        return String.join("\00", begin, "127", version, String.join("", Collections.singletonList(motd).stream().map(each -> LegacyComponentSerializer.legacySection().serialize(each)).collect(Collectors.toList())), String.valueOf(playersOnline), String.valueOf(maxPlayers));
+        return String.join("\00", begin, "127", version, String.join("", Stream.of(Component.empty()).map(each -> LegacyComponentSerializer.legacySection().serialize(each)).collect(Collectors.toList())), String.valueOf(playersOnline), String.valueOf(maxPlayers));
     }
 
     private void terminate() {

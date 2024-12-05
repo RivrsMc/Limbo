@@ -253,8 +253,8 @@ public class ClientConnection extends Thread {
                 String str = (properties.isLogPlayerIPAddresses() ? inetAddress.getHostName() : "<ip address withheld>") + ":" + clientSocket.getPort();
                 Limbo.getInstance().getConsole().sendMessage("[/" + str + "] <-> Legacy Status has pinged");
                 ServerProperties p = Limbo.getInstance().getServerProperties();
-                StatusPingEvent event = Limbo.getInstance().getEventsManager().callEvent(new StatusPingEvent(this, p.getVersionString(), p.getProtocol(), p.getMotd(), p.getMaxPlayers(), Limbo.getInstance().getPlayers().size(), p.getFavicon().orElse(null)));
-                String response = Limbo.getInstance().buildLegacyPingResponse(event.getVersion(), event.getMotd(), event.getMaxPlayers(), event.getPlayersOnline());
+                StatusPingEvent event = Limbo.getInstance().getEventsManager().callEvent(new StatusPingEvent(this, p.getVersionString(), p.getProtocol(), p.getMaxPlayers(), Limbo.getInstance().getPlayers().size()));
+                String response = Limbo.getInstance().buildLegacyPingResponse(event.getVersion(), event.getMaxPlayers(), event.getPlayersOnline());
                 byte[] bytes = response.getBytes(StandardCharsets.UTF_16BE);
                 channel.output.writeShort(response.length());
                 channel.output.write(bytes);
@@ -289,8 +289,8 @@ public class ClientConnection extends Thread {
                                     Limbo.getInstance().getConsole().sendMessage("[/" + str + "] <-> Handshake Status has pinged");
                                 }
                                 ServerProperties p = Limbo.getInstance().getServerProperties();
-                                StatusPingEvent event = Limbo.getInstance().getEventsManager().callEvent(new StatusPingEvent(this, p.getVersionString(), p.getProtocol(), p.getMotd(), p.getMaxPlayers(), Limbo.getInstance().getPlayers().size(), p.getFavicon().orElse(null)));
-                                PacketStatusOutResponse response = new PacketStatusOutResponse(Limbo.getInstance().buildServerListResponseJson(event.getVersion(), event.getProtocol(), event.getMotd(), event.getMaxPlayers(), event.getPlayersOnline(), event.getFavicon()));
+                                StatusPingEvent event = Limbo.getInstance().getEventsManager().callEvent(new StatusPingEvent(this, p.getVersionString(), p.getProtocol(), p.getMaxPlayers(), Limbo.getInstance().getPlayers().size()));
+                                PacketStatusOutResponse response = new PacketStatusOutResponse(Limbo.getInstance().buildServerListResponseJson(event.getVersion(), event.getProtocol(), event.getMaxPlayers(), event.getPlayersOnline()));
                                 sendPacket(response);
                             } else if (packetIn instanceof PacketStatusInPing) {
                                 PacketStatusInPing ping = (PacketStatusInPing) packetIn;

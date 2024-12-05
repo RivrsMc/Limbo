@@ -31,19 +31,16 @@ public class StatusPingEvent extends Event {
     private final ClientConnection connection;
     private String version;
     private int protocol;
-    private Component motd;
     private int maxPlayers;
     private int playersOnline;
     private BufferedImage favicon;
 
-    public StatusPingEvent(ClientConnection connection, String version, int protocol, Component motd, int maxPlayers, int playersOnline, BufferedImage favicon) {
+    public StatusPingEvent(ClientConnection connection, String version, int protocol, int maxPlayers, int playersOnline) {
         this.connection = connection;
         this.version = version;
         this.protocol = protocol;
-        this.motd = motd;
         this.maxPlayers = maxPlayers;
         this.playersOnline = playersOnline;
-        this.favicon = favicon;
     }
 
     public ClientConnection getConnection() {
@@ -64,14 +61,6 @@ public class StatusPingEvent extends Event {
 
     public void setProtocol(int protocol) {
         this.protocol = protocol;
-    }
-
-    public Component getMotd() {
-        return motd;
-    }
-
-    public void setMotd(Component motd) {
-        this.motd = motd;
     }
 
     public int getMaxPlayers() {
